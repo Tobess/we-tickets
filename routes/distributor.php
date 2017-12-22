@@ -1,0 +1,22 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes For Distributor
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for distributor application. These
+| routes are included by the web.php. Now create something great!
+|
+*/
+
+// Authentication Routes...
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('dist-login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('dist-logout');
+
+Route::middleware('auth:distributor')->group(function () {
+    Route::get('/', function () {
+        return view('apps.distributor.index');
+    });
+});

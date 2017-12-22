@@ -1,0 +1,222 @@
+@extends('layouts.content', ['_title' => '账户管理'])
+
+@section('content')
+    <ul class="breadcrumb m-b-none">
+        <li><span class="text-muted">产品</span></li>
+        <li class="active"><span class="text-muted">类目管理</span></li>
+    </ul>
+    <div class="padder">
+        <div class="panel panel-default">
+            <div class="row wrapper">
+                <div class="col-sm-6">
+                    <button class="btn btn-sm btn-primary" type="button" onClick="update(0)">
+                        <i class="fa fa-plus"></i>
+                        新增
+                    </button>
+
+                    <div class="btn-group">
+                        <button type="button" id="showNormal" class="btn btn-sm {{ !isset($deleted) || $deleted != 1 ? 'btn-success' : 'btn-default' }}">正式</button>
+                        <button type="button" id="showDeleted" class="btn btn-sm {{ isset($deleted) && $deleted == 1 ? 'btn-danger' : 'btn-default' }}">删除</button>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group input-group-sm">
+                        <input id="searchQueryBox" type="text" class="input-sm form-control" placeholder="请输入手机号查询" {{ isset($query) ? 'value='.$query : ''}}>
+                        <span class="input-group-btn">
+                                      <button class="btn btn-sm btn-default" type="button" onclick="window.location.href='?deleted={{ $deleted }}&query='+$('#searchQueryBox').val();">搜!</button>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped b-t b-light m-b-none">
+                    <thead>
+                    <tr>
+                        <th>手机</th>
+                        <th>姓名</th>
+                        <th>Email</th>
+                        <th>最后登录</th>
+                        <th style="width:112px;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->mobile }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->updated_at }}</td>
+                            <td>
+                                @if(!($deleted ?? false))
+                                    <button class="btn btn-xs btn-info m-b-none" type="button" onClick="update('{{ $user->id }}')">编辑</button>
+                                    @if($user->id != 1)
+                                        <button class="btn btn-xs btn-danger m-b-none" type="button" onClick="stop('{{ $user->id }}')">禁用</button>
+                                    @endif
+                                @endif
+                                @if(isset($deleted) && $deleted == 1 && Auth::id() == 1)
+                                    <button class="btn btn-xs btn-primary m-b-none" type="button" onClick="recovery('{{ $user->id }}')">恢复</button>
+                                    <button class="btn btn-xs btn-danger m-b-none" type="button" onClick="destroy('{{ $user->id }}')">删除</button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-6 hidden-xs">
+                        <small class="text-muted inline m-t-sm m-b-sm">当前正显示第{{$users->firstItem()}}-{{$users->lastItem()}}条数据，本页{{$users->count()}}条，共{{$users->total()}}条</small>
+                    </div>
+                    <div class="col-sm-6 text-right text-center-xs">
+                        {{ $users->appends(array('query' => isset($query) ? $query : '','deleted' => isset($deleted) ? $deleted : ''))->links('layouts.blocks.pager') }}
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+@stop
+
+@section('scripts')
+    <script type="text/javascript">
+        $(function () {
+            $("#searchQueryBox").keypress(function(e) {
+                if (e.which == 13) {
+                    window.location.href='?query='+$('#searchQueryBox').val();
+                }
+            });
+            $("#showDeleted").click(function () {
+                window.location.href='?query='+$('#searchQueryBox').val()+'&deleted=1';
+            });
+            $("#showNormal").click(function () {
+                window.location.href='?query='+$('#searchQueryBox').val();
+            });
+
+            @if(!($deleted ?? false))
+            $("#formUserPwdModal").find('button[name=submit]').click(submit);
+            @endif
+        });
+
+        @if(!($deleted ?? false))
+        function update(id)
+        {
+            var $form = $("#formUserPwdModal");
+
+            $form.find('form')[0].reset();
+            if (id > 0) {
+                $.APIAjaxByGet('/console/system/users/profile/'+id, {}, function(result){
+                    if (!result || !result.data) {
+                        alert('无法获取用户信息！');
+                        return;
+                    }
+
+                    var data = result.data;
+                    $form.find('[name="id"]').val(data.id);
+                    $form.find('[name="name"]').val(data.name);
+                    $form.find('[name="mobile"]').val(data.mobile);
+                    $form.find('[name="email"]').val(data.email);
+                    if (typeof data.roles === "object" && data.roles.length > 0) {
+                        $(data.roles).each(function (k, v) {
+                            $form.find('[name="roles"] option[value='+v+']').attr('selected', true);
+                        })
+                    }
+
+                    $form
+                        .modal({
+                            keyboard: false,
+                            backdrop: 'static'
+                        })
+                        .show();
+                });
+            }
+
+            $form
+                .modal({
+                    keyboard: false,
+                    backdrop: 'static'
+                })
+                .show();
+        }
+        /**
+         * 保存用户信息
+         * @param param
+         */
+        function submit()
+        {
+            var $form = $("#formUserPwdModal");
+            var data = {
+                'name':$form.find('[name="name"]').val(),
+                'mobile':$form.find('[name="mobile"]').val(),
+                'password':$form.find('[name="password"]').val(),
+                'password_confirmation':$form.find('[name="password_confirmation"]').val(),
+                'email':$form.find('[name="email"]').val(),
+                'roles':$form.find('[name="roles"]').val()
+            };
+            var id = $form.find('[name="id"]').val();
+            if(id <= 0) {
+                if (!data.name || !data.mobile || !data.email || data.password.length < 6) {
+                    alert('无效姓名、手机号、电子邮箱 、密码长度(6位以上).');
+                    return;
+                }
+
+                if (data.password != data.password_confirmation) {
+                    alert('两次密码不一致.');
+                    return;
+                }
+            } else {
+                data.id = id;
+            }
+
+            $.APIAjaxByPost('/console/system/users/store', data, function(result){
+                if (result) {
+                    if (result && result.state) {
+                        alert('保存成功！');
+                        $form.modal('hide');
+                        window.location.reload();
+                    } else {
+                        alert(result && result.msg ? result.msg : '保存失败！');
+                    }
+                } else {
+                    alert('未知错误！');
+                }
+            });
+        }
+
+
+        /**
+         * 删除用户
+         * @param id
+         */
+        function stop(id)
+        {
+            if (confirm('您确定要禁用吗？')) {
+                window.location.href='/console/system/users/stop/'+id;
+            }
+        }
+
+        @endif
+
+        @if(isset($deleted) && $deleted == 1 && Auth::id() == 1)
+        /**
+         * 恢复用户
+         * @param id
+         */
+        function recovery(id)
+        {
+            if (confirm('您确定要恢复此账号吗?')) {
+                window.location.href='/console/system/users/recovery/'+id;
+            }
+        }
+        /**
+         * 恢复用户
+         * @param id
+         */
+        function destroy(id)
+        {
+            if (confirm('您确定要删除此账号吗?')) {
+                window.location.href='/console/system/users/destroy/'+id;
+            }
+        }
+        @endif
+    </script>
+@stop
