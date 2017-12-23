@@ -44,7 +44,16 @@ Route::middleware('auth:platform')->group(function () {
         // 场馆列表
         Route::get('venue', 'Apps\Platform\Product\VenueController@getIndex');
         // 编辑场馆
-        Route::get('venue/edit/{id}', 'Apps\Platform\Product\VenueController@getEdit');
+        Route::get('venue/edit/{id}', 'Apps\Platform\Product\VenueController@getEdit')->name('venue-edit');
+        // 保存场馆
+        Route::post('venue/store', 'Apps\Platform\Product\VenueController@postStore')->name('venue-store');
+        // 删除场馆
+        Route::get('venue/destroy/{id}', 'Apps\Platform\Product\VenueController@getDestroy');
+
+        // 商品管理
+        Route::get('items', 'Apps\Platform\Product\ItemsController@getIndex');
+        // 编辑商品
+        Route::get('items/edit/{id}', 'Apps\Platform\Product\ItemsController@getEdit')->name('items-edit');
     });
 
     // 系统

@@ -51,6 +51,8 @@ class VenueController extends Controller
         $latitude = \request('latitude');
         $longitude = \request('longitude');
         $desc = \request('description') ?: '';
+        $traffic = \request('traffic') ?: '';
+        $categories = \request('categories');
 
 
         if (!$name || $area <= 0) {
@@ -64,22 +66,41 @@ class VenueController extends Controller
                 'street' => $street,
                 'latitude' => $latitude,
                 'longitude' => $longitude,
-                'description' => $desc
+                'description' => $desc,
+                'traffic' => $traffic
             ];
+            $refFn = function ($id) use ($categories) {
+                \DB::table('bas_venue_category')->where('venue_id', $id)->delete();
+                if ($categories) {
+                    $categories = explode(',', $categories);
+                    $cvRef = [];
+                    foreach ($categories as $cid) {
+                        $cvRef[] = ['venue_id' => $id, 'category_id' => $cid];
+                    }
+                    if (count($cvRef) > 0) {
+                        \DB::table('bas_venue_category')->insert($cvRef);
+                    }
+                }
+            };
             if ($id > 0) {
-                $state = \DB::table('bas_category')
+                $state = \DB::table('bas_venue')
                     ->where('id', $id)
-                    ->update($values);
+                    ->update($values) >= 0;
+                $refFn($id);
             } else {
-                $state = \DB::table('bas_category')
-                    ->insert($values);
+                $id = \DB::table('bas_venue')
+                    ->insertGetId($values);
+                if ($id > 0) {
+                    $refFn($id);
+                    return redirect()->route('venue-edit', ['id' => $id]);
+                }
             }
-            if ($state) {
-                return self::retSuc();
+            if (isset($state) && $state) {
+                return back();
             }
         }
 
-        return self::retErr($msg ?? '场馆保存失败！');
+        return back()->withErrors($msg ?? '场馆保存失败！');
     }
 
     /**
@@ -90,9 +111,21 @@ class VenueController extends Controller
      */
     public function getEdit($id)
     {
-        $venue = \DB::table('bas_category')->where('id', $id)->first();
+        $venue = \DB::table('bas_venue')->where('id', $id)->first();
 
-        return view(app_view('product.venue.edit'))->with('venue', $venue);
+        $venue->categories = \DB::table('bas_venue_category')
+            ->where('venue_id', $id)
+            ->pluck('category_id');
+
+        $cateList = \DB::table('bas_category')->get();
+        $categories = [];
+        foreach ($cateList as $item) {
+            $categories[$item->pid][] = $item;
+        }
+
+        return app_view('product.venue.edit')
+            ->with('venue', $venue)
+            ->with('categories', $categories);
     }
 
     /**

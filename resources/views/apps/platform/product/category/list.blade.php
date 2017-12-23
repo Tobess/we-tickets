@@ -36,6 +36,7 @@
                     <tr>
                         <th class="text-center" style="width: 64px;">序号</th>
                         <th>名称</th>
+                        <th>父级</th>
                         <th style="width:112px;"></th>
                     </tr>
                     </thead>
@@ -44,6 +45,7 @@
                         <tr>
                             <td class="text-center">{{ $idx + 1  }}</td>
                             <td>{{ $row->name }}</td>
+                            <td>{{ $row->pName }}</td>
                             <td>
                                 <button class="btn btn-xs btn-info m-b-none" type="button" onClick="update('{{ $row->id }}')">编辑</button>
                                 <button class="btn btn-xs btn-danger m-b-none" type="button" onClick="destroy('{{ $row->id }}')">删除</button>

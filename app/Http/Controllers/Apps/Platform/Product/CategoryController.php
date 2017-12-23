@@ -24,15 +24,17 @@ class CategoryController extends Controller
     {
         $query = \request('query');
         $pid = \request('pid') ?: 0;
-        $dQue = \DB::table('bas_category')->where('id', '>', 0);
+        $dQue = \DB::table('bas_category as bc')->where('bc.id', '>', 0);
         if ($query) {
             $dQue->where(function ($sub) use ($query) {
-                $sub->where('name', 'like', "{$query}%");
+                $sub->where('bc.name', 'like', "{$query}%");
             });
         }
         if ($pid > 0) {
-            $dQue->where('pid', $pid);
+            $dQue->where('bc.pid', $pid);
         }
+        $dQue->select('bc.id', 'bc.name', 'bc.pid',
+            \DB::raw("(select name from bas_category where id=bc.pid) as pName"));
         $rows = $dQue->paginate();
         $tops = \DB::table('bas_category')->where('pid', 0)->get(['id', 'name']);
         return view('apps.platform.product.category.list')

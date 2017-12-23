@@ -95,19 +95,88 @@ if (! function_exists('app_menus')) {
     }
 }
 
-
-
 if (! function_exists('app_view')) {
     /**
      * 获得应用试图PATH.
      *
-     * @param  string  $path
-     * @return string
+     * @param string $path
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     function app_view(string $path)
     {
         $app = app_name();
 
-        return ($app ? "apps.{$app}." : '') . "{$path}";
+        return view(($app ? "apps.{$app}." : '') . "{$path}");
+    }
+}
+
+if (! function_exists('area_provinces')) {
+    /**
+     * 获得省份列表.
+     *
+     * @return array
+     */
+    function area_provinces()
+    {
+        $cKey = 'data:area:provinces';
+        $provinces = cache($cKey, function () use ($cKey) {
+            $pList = DB::table('bas_area')->where('typeid', 0)->get();
+            if (count($pList) > 0) {
+                cache([$cKey => $pList], \Carbon\Carbon::now()->addDay());
+            }
+
+            return $pList;
+        });
+
+        return $provinces;
+    }
+}
+
+if (! function_exists('areas')) {
+    /**
+     * 获得城市列表.
+     *
+     * @param int $parent 归属区域
+     * @return array
+     */
+    function areas($parent)
+    {
+        $cKey = "data:areas:{$parent}";
+        $provinces = cache($cKey, function () use ($cKey, $parent) {
+            $pList = DB::table('bas_area')->where('typeid', $parent)->get();
+            if (count($pList) > 0) {
+                cache([$cKey => $pList], \Carbon\Carbon::now()->addDay());
+            }
+
+            return $pList;
+        });
+
+        return $provinces;
+    }
+}
+
+if (! function_exists('area_cities')) {
+    /**
+     * 获得城市列表.
+     *
+     * @param int $province 归属省份
+     * @return array
+     */
+    function area_cities($province)
+    {
+        return areas($province);
+    }
+}
+
+if (! function_exists('area_districts')) {
+    /**
+     * 获得地区列表.
+     *
+     * @param int $city 归属城市
+     * @return array
+     */
+    function area_districts($city)
+    {
+        return areas($city);
     }
 }

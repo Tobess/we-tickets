@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// 数据源API
+Route::prefix('data')->group(function () {
+    Route::get('areas', function () {
+        $parent = \request('parent', 0);
+        return \App\Support\JsonResponse::retDat(areas($parent));
+    });
+});

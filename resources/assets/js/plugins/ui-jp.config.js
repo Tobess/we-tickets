@@ -35,5 +35,8 @@ var jp_config = {
         '/libs/clockpicker/bootstrap-clockpicker.min.css'],
     screenfull:     [
         '/libs/screenfull/dist/screenfull.min.js'
+    ],
+    ckeditor:     [
+        '/libs/ckeditor/ckeditor.js'
     ]
 };
