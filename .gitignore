@@ -11,11 +11,4 @@ yarn-error.log
 
 _ide_helper.php
 
-public
-!public/robots.txt
-!public/index.php
-!public/favicon.ico
-!public/.htaccess
-!public/.gitignore
-
 node_modules
