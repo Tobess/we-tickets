@@ -32,4 +32,5 @@ mix
     ], 'public/js/app.js')
     .sass('resources/assets/sass/app.scss', 'public/css/app.css')
     .copy('resources/assets/js/libs', 'public/libs')
-    .copy('resources/assets/images', 'public/images');
+    .copy('resources/assets/images', 'public/images')
+    .copy('resources/assets/css/goods-edit.css', 'public/css');

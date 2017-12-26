@@ -1,0 +1,552 @@
+<!-- 物流/其他 -->
+<div class="hbox bg-light lter m-t-xs goods-info-group">
+                            <div class="col text-center b-r b-white info-group-title" style="width: 106px;">
+                                <div class="group-inner">物流/其他</div>
+                            </div>
+                            <div class="col b-l b-l b-white info-group-cont">
+                                <div class="group-inner">
+                                    <div class="js-delivery-group" style="display: block;">
+                                        <div class="control-group">
+                                            <label class="control-label">
+                                                <em class="required">*</em>运费设置：
+                                            </label>
+                                            <div class="controls">
+                                                <label class="radio">
+                                                    <input id="js-unified-postage" type="radio" name="delivery" value="0" checked="">统一邮费
+                                                    <div class="input-group input-group-sm" style="width: 130px;">
+                                                        <span class="input-group-addon">￥</span>
+                                                        <input type="text" name="postage" value="0.00" class="form-control input-sm inline">
+                                                    </div>
+                                                </label>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group" style="margin-top: -20px;">
+                                            <label class="control-label"></label>
+                                            <div class="controls">
+                                                <label class="radio mat10">
+                                                    <input id="js-use-delivery" type="radio" name="delivery" value="1">运费模版
+                                                    <div class="delivery-template">
+                                                        <input type="hidden" name="delivery_template_id" value="" class="js-delivery-template select2-offscreen" tabindex="-1">
+                                                        <div class="inline m-t-xxs m-b-n">
+                                                            <select ui-jq="chosen" name="tag" data-placeholder="选择运费模版" style="width: 220px;    height: 30px;">
+                                                                <option value="74060531">列表中隐藏</option>
+                                                            </select>
+                                                            <a class="text-info" href="javascript:;">刷新</a>
+                                                            <span class="c-gray">|</span>
+                                                            <a href="//www.youzan.com/v2/trade/delivery#add" target="_blank" class="text-info">新建</a>
+                                                            <span class="c-gray">|</span>
+                                                            <a href="//help.youzan.com/qa#/menu/2119/detail/994?_k=h6uj8k" target="_blank" class="text-info">如何设置合适的运费模版？</a>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="js-delivery-sku-weight">
+                                            <div class="hide">
+                                                <div class="control-group">
+                                                    <label class="control-label pull-left"></label>
+                                                    <div class="controls">
+                                                        <p>当前运费模版，按物流重量（含包装）计费</p>
+                                                        <div>
+                                                            <label class="pull-left">
+                                                                <em class="required">*</em>
+                                                                物流重量:
+                                                            </label>
+                                                            <div style="margin-left: 70px; padding: 0 10px 10px; background-color: #fff; border: 1px solid #e5e5e5;">
+                                                                <table class="table-sku-stock">
+                                                                    <thead>
+                                                                    <tr>
+
+                                                                        <th class="text-center">尺寸</th>
+
+                                                                        <th class="text-center">颜色</th>
+
+                                                                        <th>重量(Kg)</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                    <tr>
+
+
+                                                                        <td class="text-center" rowspan="3">6</td>
+
+
+                                                                        <td class="text-center" rowspan="1">B</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="189" data-s2="2466" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">C</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="189" data-s2="3014" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">D</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="189" data-s2="7161" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+                                                                        <td class="text-center" rowspan="3">1</td>
+
+
+                                                                        <td class="text-center" rowspan="1">B</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="432" data-s2="2466" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">C</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="432" data-s2="3014" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">D</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="432" data-s2="7161" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+                                                                        <td class="text-center" rowspan="3">2</td>
+
+
+                                                                        <td class="text-center" rowspan="1">B</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="433" data-s2="2466" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">C</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="433" data-s2="3014" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">D</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="433" data-s2="7161" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+                                                                        <td class="text-center" rowspan="3">3</td>
+
+
+                                                                        <td class="text-center" rowspan="1">B</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="434" data-s2="2466" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">C</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="434" data-s2="3014" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">D</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="434" data-s2="7161" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+                                                                        <td class="text-center" rowspan="3">5</td>
+
+
+                                                                        <td class="text-center" rowspan="1">B</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="783" data-s2="2466" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">C</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="783" data-s2="3014" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">D</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="783" data-s2="7161" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+                                                                        <td class="text-center" rowspan="3">7</td>
+
+
+                                                                        <td class="text-center" rowspan="1">B</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="1205" data-s2="2466" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">C</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="1205" data-s2="3014" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">D</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="1205" data-s2="7161" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+                                                                        <td class="text-center" rowspan="3">8</td>
+
+
+                                                                        <td class="text-center" rowspan="1">B</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="1207" data-s2="2466" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">C</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="1207" data-s2="3014" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">D</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="1207" data-s2="7161" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+                                                                        <td class="text-center" rowspan="3">4</td>
+
+
+                                                                        <td class="text-center" rowspan="1">B</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="1265" data-s2="2466" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">C</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="1265" data-s2="3014" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <tr>
+
+
+
+                                                                        <td class="text-center" rowspan="1">D</td>
+
+
+
+                                                                        <td class="">
+                                                                            <input type="text" class="input-small js-sku-weight-input" data-skuid="0" data-s1="1265" data-s2="7161" data-s3="" value="0.000">
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                    <tr>
+                                                                        <td colspan="3">
+                                                                            <div class="batch-opts">
+                                                                                批量设置：
+                                                                                <span class="js-batch-weight-type">
+                                        <a class="js-batch-weight" href="javascript:;">重量</a>
+                                    </span>
+                                                                                <span class="js-batch-weight-form" style="display: none;">
+                                        <input type="text" class="js-batch-weight-txt input-mini" placeholder="">
+                                        <a class="js-batch-save" href="javascript:;">保存</a>
+                                        <a class="js-batch-cancel" href="javascript:;">取消</a>
+                                        <p class="help-desc"></p>
+                                    </span>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tfoot>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div></div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">每人限购：</label>
+                                        <div class="controls ">
+                                            <input type="text" name="quota" value="0" class="form-control input-sm" style="width: 130px;">
+                                            <p class="help-desc quota-help-desc">0 代表不限购</p>
+
+                                        </div>
+                                    </div>
+                                    <div class="control-group js-purchase-right" style="display: block;">
+                                        <label class="control-label">购买权限：</label>
+                                        <div class="controls ">
+                                            <label class="checkbox inline">
+                                                <input type="checkbox" name="purchase_right" value="1">设置购买权限
+                                            </label>
+                                            <div class="js-purchase-right-setting" style="display: none;">
+                                                <label class="checkbox mt10">
+                                                    <span>请选择可购买该商品的会员身份</span>
+                                                    <div class="js-member-level"><div class="ui-tag">
+                                                            <div class="select2-container select2-container-multi js-select2" id="s2id_autogen1" style="width: 242px;"><ul class="select2-choices">  <li class="select2-search-field">    <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input select2-default" id="s2id_autogen2" tabindex="-1" style="width: 242px;">  </li></ul><div class="select2-drop select2-drop-multi select2-display-none">   <ul class="select2-results">   <li class="select2-no-results">没有找到匹配项</li><li class="select2-no-results">没有找到匹配项</li></ul></div></div><select type="hidden" class="js-select2 select2-offscreen" style="width: 242px;" tabindex="-1" multiple="">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                                <label class="checkbox mt10 js-user-tag-setting" style="display: none;">
+                                                    <span>请选择可购买该商品的用户标签</span>
+                                                    <div class="js-user-tag"></div>
+                                                </label>
+                                                <label class="checkbox">
+                                                    <span>以上均不选择，则默认为所有用户</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">要求留言：</label>
+                                        <div class="controls">
+                                            <input type="hidden" name="messages">
+                                            <div id="messages-region"><div><div class="js-message-container message-container"></div>
+                                                    <div class="message-add">
+
+                                                        <a href="javascript:;" class="js-add-message control-action">+ 添加字段</a>
+
+                                                    </div>
+                                                    <p class="help-desc">单件商品最多可设置10条留言</p>
+                                                </div></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label class="control-label">开售时间：</label>
+                                        <div class="controls ">
+                                            <label class="radio">
+                                                <input type="radio" name="sold_time" value="0" checked="">立即开售
+                                            </label>
+                                            <label class="radio mat5" for="sold_time">
+                                                <input type="radio" id="sold_time" name="sold_time" value="1">定时开售
+                                                <input id="start_sold_time" name="start_sold_time" class="input-medium js-sold-time v-hide hasDatepicker" type="text" value="" readonly="">
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="js-level-discount control-group control-group-notes-wrap">
+                                        <label class="control-label">会员折扣：</label>
+                                        <div class="controls">
+                                            <label class="checkbox inline">
+                                                <input type="checkbox" name="join_level_discount" value="1" checked="">参加会员折扣
+                                            </label>
+                                            <div class="js-join-discount-alert hide alert" style="margin: 0px; width: 400px; display: none;">该商品是分销商品，若勾选会员折扣，有可能最终出售价格低于成本价，造成亏损，请参考成本价合理设置折扣</div>
+
+                                        </div>
+                                        <div class="controls" style="margin-top: 0px;">
+                                            <span class="c-gray">指的是统一的会员卡折扣，是否勾选不影响自定义会员价生效。</span><a target="_blank" href="https://help.youzan.com/qa#/menu/2111/detail/1092">什么是自定义会员价？</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group service-tel" style="display:none;">
+                                        <label class="control-label">
+                                            <em class="required">*</em>
+                                            客服电话：
+                                        </label>
+                                        <div class="controls">
+                                            <input type="text" class="span1 text-center" name="service_tel_code" placeholder="区号" value="" maxlength="6">&nbsp;&nbsp;-&nbsp;&nbsp;
+                                            <input type="text" name="service_tel" placeholder="请输入电话号码（区号可留空）" value="" maxlength="15">
+                                            <p class="help-desc">酒店类商品须提供客服电话以便买家咨询</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="js-idcard-info-wrap" style="display: block;">
+                                        <div class="control-group hide">
+                                            <label class="control-label">身份证信息：</label>
+                                            <div class="controls">
+
+                                                <div class="static-value">你已经关闭了此功能，无法收集买家身份证信息  <a href="//www.youzan.com/v2/setting/team" target="_blank">去开启</a></div>
+                                                <input type="checkbox" name="need_customs_info" value="1" class="hide">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>

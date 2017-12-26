@@ -51,7 +51,12 @@ var uiLoad = uiLoad || {};
         script.onerror = function (e) {
             deferred.reject(e);
         };
-        $document.body.appendChild(script);
+        var $appScript = $document.getElementById("_appScript");
+        if ($appScript && $appScript.tagName.toLowerCase() == 'script') {
+            $appScript.after(script);
+        } else {
+            $document.body.appendChild(script);
+        }
         loaded[src] = deferred;
 
         return deferred.promise();
@@ -76,7 +81,12 @@ var uiLoad = uiLoad || {};
         style.onerror = function (e) {
             deferred.reject(e);
         };
-        $document.head.appendChild(style);
+        var $appCss = $document.getElementById("_appCss");
+        if ($appCss && $appCss.tagName.toLowerCase() == 'link') {
+            $appCss.after(style);
+        } else {
+            $document.head.appendChild(style);
+        }
         loaded[href] = deferred;
 
         return deferred.promise();

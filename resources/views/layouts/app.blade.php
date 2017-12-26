@@ -21,7 +21,7 @@
     <title>{{ config('app.name', 'Tickets') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link id="_appCss" href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('head')
 </head>
 <body>
@@ -29,7 +29,7 @@
 @yield('container')
 
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}"></script>
+<script id="_appScript" src="{{ asset('js/app.js') }}"></script>
 @yield('scripts')
 </body>
 </html>
