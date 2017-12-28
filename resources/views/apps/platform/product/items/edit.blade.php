@@ -1,202 +1,466 @@
 @extends('layouts.content')
 
 @section('head')
-    <link href="{{ asset('css/goods-edit.css') }}" rel="stylesheet">
     <style>
-        .nav.nav-tabs li.active {
-            margin-bottom: -2px;
-        }
-        .nav.nav-tabs li.active a {
-            margin: 0px;
-            background-color: #ddd;
-            border: 1px solid #ddd;
-            padding-bottom: 11px;
-            color: #5cb85c;
-        }
-
-        .category {
-            border: 2px solid #f6f8f8;
-        }
-        .category.active, .category:active, .category:hover {
-            border: 2px solid #f63;
-            color: #f63;
-            background-color: #fff;
-            cursor: pointer;
-        }
-
-        /*商品字段控件样式*/
-        .form-horizontal .static-value {
-            padding-top: 5px;
-            font-size: 14px;
-            line-height: 18px;
-            padding-bottom: 5px;
-            word-break: break-all;
-        }
-        .form-horizontal .goods-info-group .static-value {
+        .hoe-input,
+        .hoe-input[type=color],
+        .hoe-input[type=date],
+        .hoe-input[type=datetime],
+        .hoe-input[type=email],
+        .hoe-input[type=month],
+        .hoe-input[type=number],
+        .hoe-input[type=password],
+        .hoe-input[type=search],
+        .hoe-input[type=tel],
+        .hoe-input[type=text],
+        .hoe-input[type=time],
+        .hoe-input[type=url],
+        .hoe-input[type=week],
+        .zent-textarea {
+            display: inline-block;
+            -webkit-box-flex: 1;
+            -ms-flex: 1;
+            -webkit-flex: 1;
+            -moz-box-flex: 1;
+            flex: 1;
+            min-width: 80px;
+            height: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 0 10px;
+            margin: 0;
+            border: 1px solid #bbb;
+            color: #333;
             font-size: 12px;
+            border-radius: 2px;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            -webkit-transition: border .2s ease-in-out,-webkit-box-shadow .2s ease-in-out;
+            transition: border .2s ease-in-out,-webkit-box-shadow .2s ease-in-out;
+            -moz-transition: border .2s ease-in-out,box-shadow .2s ease-in-out;
+            transition: border .2s ease-in-out,box-shadow .2s ease-in-out;
+            transition: border .2s ease-in-out,box-shadow .2s ease-in-out,-webkit-box-shadow .2s ease-in-out;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        .hoe-input-addon-after,
+        .hoe-input-addon-before {
+            display: inline-block;
+            height: 100%;
+            padding: 0 5px;
+            border: 1px solid #bbb;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
             vertical-align: middle;
+            background-color: #e5e5e5;
+            font-size: 12px;
+        }
+        .hoe-input-addon-before {
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+            border-right: none;
+        }
+        .hoe-input-addon-after {
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            border-left: none;
+        }
+        .hoe-input-addons>.hoe-input {
+            border-radius: 0;
+        }
+        .hoe-input-addons>.hoe-input:last-child {
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+        }
 
+        /*商品编辑块头部*/
+        .goods-block-head {
+            background-color: #f8f8f8;
+            font-size: 14px;
+            font-weight: 700;
         }
-        .checkbox, .radio {
-            min-height: 20px;
-            padding-left: 20px;
+        /*商品编辑块头部标题*/
+        .goods-block-cont-title {
+            padding: 10px;
         }
-
-        .checkbox.inline, .radio.inline {
-            display: inline-block !important;
-            padding-top: 5px;
-            margin-bottom: 0;
-            vertical-align: middle;
+        /*商品编辑块内容容器*/
+        .goods-block-cont-inner {
+            padding: 10px 0px;
         }
-        .radio input[type="radio"], .checkbox input[type="checkbox"] {
-            margin-left: -16px;
-            margin-top: 1px;
+        /*商品编辑控件分组*/
+        .form-control-group {
+            margin-bottom: 20px;
+            font-size: 12px;
         }
-        .controls>.checkbox:first-child, .controls>.radio:first-child {
-            padding-top: 5px;
+        .form-control-label {
+            width: 100px;
         }
-        .checkbox.inline+.checkbox.inline, .radio.inline+.radio.inline {
+        .form-control-group.no-label .form-control-label{
+            display: none!important;
+        }
+        .form-control-controls {
             margin-left: 10px;
         }
-
-        .goods-info-group .info-group-title .group-inner {
-            padding: 28px 10px 23px;
+        .form-control-group.no-label .form-control-controls {
+            margin-left: 0!important;
         }
-        .goods-info-group .info-group-cont .group-inner {
-            padding: 23px 20px 10px;
+        .input-xxlarge {
+            width: 460px;
         }
-        .control-group {
-            margin-bottom: 20px;
-        }
-        .control-group .control-label {
-            width: 100px;
-            cursor: default;
-            float: left;
-            font-size: 12px !important;
-            text-align: right;
-            padding-top:5px;
-        }
-        .control-group .controls {
-            margin-left: 116px;
-            font-size: 12px !important;
-        }
-
-        /*重写chosen*/
-        .chosen-container-single .chosen-single {
-            height: 28px;
+        .input-wrapper {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: flex;
+            position: relative;
+            height: 30px;
+            max-height: 36px;
             line-height: 28px;
         }
-        .chosen-container-single .chosen-single div b {
-            background-position-y: 4px;
-        }
-        .chosen-container-multi .chosen-choices {
-            padding: 1px 2px;
-            min-height: 28px;
-            font-size: 12px;
-            vertical-align: middle;
-        }
-
-        /*必要字段符号*/
-        .form-horizontal em.required {
+        .form-required {
+            margin-right: 6px;
             font-size: 16px;
-            color: #f00;
+            color: #e33;
             vertical-align: middle;
         }
-
-        /*图片管理*/
-        .module-goods-list,
-        .app-image-list {
-            list-style: none;
-            padding: 0px;
-        }
-        .module-goods-list li .add-goods,
-        .module-goods-list li .add,
-        .app-image-list li .add-goods,
-        .app-image-list li .add {
-            display: inline-block;
-            width: 100%;
-            height: 100%;
-            line-height: 50px;
-            text-align: center;
-            cursor: pointer;
-        }
-        .module-goods-list li,
-        .app-image-list li {
-            float: left;
-            margin: 0 10px 10px 0;
-            display: block;
-            width: 50px;
-            height: 50px;
-            border: 1px solid #ddd;
-            background-color: #fff;
-            position: relative;
-        }
-        .module-goods-list li img,
-        .app-image-list li img {
-            height: 100%;
-            width: 100%;
-        }
-        /*视频*/
-        .video-edit-wrap .add-video {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            border: 1px solid #ddd;
-            background: #fff;
-            position: relative;
-            text-align: center;
-        }
-        .video-edit-wrap a {
-            cursor: pointer;
-        }
-
-        .form-horizontal .help-block,
-        .form-horizontal .help-desc {
-            opacity: 0.6;
+        .help-block {
             line-height: 14px;
             font-size: 12px;
             margin-top: 6px;
             margin-bottom: 0;
+            color: #999;
         }
-        .goods-info-group p {
-            margin-bottom: 10px;
+        .form-info-error-desc,
+        .form-info-help-block,
+        .form-info-help-desc,
+        .form-info-notice-desc {
+            line-height: 14px;
+            font-size: 12px;
+            margin-top: 10px;
+            margin-bottom: 0;
+            color: #999;
         }
 
-        .form-horizontal.fm-goods-info label,
-        .form-horizontal.fm-goods-info input,
-        .form-horizontal.fm-goods-info button,
-        .form-horizontal.fm-goods-info select,
-        .form-horizontal.fm-goods-info textarea {
-            font-size: 12px !important;
+
+        .form-horizontal .form-control-label {
+            display: inline-block;
+            width: 120px;
+            font-size: 12px;
+            line-height: 30px;
+            text-align: right;
+            vertical-align: top;
+        }
+        .form-horizontal .form-control-controls {
+            display: inline-block;
+            word-break: break-all;
+            vertical-align: top;
         }
 
-        .close-modal.small {
-            top: -8px;
-            right: -8px;
-            width: 18px;
-            height: 18px;
-            font-size: 14px;
-            line-height: 16px;
-            border-radius: 9px;
-        }
-        .close-modal {
-            position: absolute;
-            z-index: 2;
-            top: -9px;
-            right: -9px;
-            width: 20px;
-            height: 20px;
-            font-size: 16px;
-            line-height: 18px;
-            color: #fff;
-            text-align: center;
+        /*可折叠*/
+        .fold-field {
+            font-size: 12px;
             cursor: pointer;
-            background: rgba(153,153,153,0.6);
-            border-radius: 10px;
         }
-        .sku-atom, .sku-atom .upload-img-wrap {
-            width: 90px;
+        .fold-field-icon {
+            display: inline-block;
+            speak: none;
+            font-style: normal;
+            vertical-align: baseline;
+            text-align: center;
+            text-transform: none;
+            font-variant: normal;
+            text-rendering: auto;
+            text-decoration: inherit;
+            line-height: 1;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-transform: scale(.6);
+            -moz-transform: scale(.6);
+            -ms-transform: scale(.6);
+            transform: scale(.6);
+            margin-left: -2px;
+        }
+        .fold-field-icon:before {
+            content: "\f04b";
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display: block;
+            font: normal normal normal 14px/1 FontAwesome;
+            margin-bottom: 4px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .fold-field-icon.is-close {
+            -webkit-transform: scale(.6) rotate(90deg);
+            -moz-transform: scale(.6) rotate(90deg);
+            -ms-transform: scale(.6) rotate(90deg);
+            transform: scale(.6) rotate(90deg);
+        }
+        .fold-field-icon.is-close:before {
+            margin-bottom: 3px;
+        }
+        .fold-field-txt {
+            color: #38f;
+            margin-left: 3px;
+        }
+
+        /*checkbox控件*/
+        .hoe-checkbox-wrap {
+            display: inline-block;
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            margin-right: 15px;
+            vertical-align: middle;
+            line-height: 28px;
+            color: #333;
+        }
+        .hoe-checkbox-wrap:last-child {
+            margin-right: 0;
+        }
+        .hoe-checkbox {
+            position: relative;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            white-space: nowrap;
+            outline: none;
+            vertical-align: middle;
+            line-height: 1;
+            margin: 0;
+            padding: 0;
+        }
+        .hoe-checkbox input {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .hoe-checkbox+span {
+            margin-left: 5px;
+            margin-right: 5px;
+            vertical-align: middle;
+            line-height: 16px;
+        }
+        .hoe-checkbox-inner {
+            position: relative;
+            top: 0;
+            left: 0;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 2px;
+            border: 1px solid #bbb;
+            background: #fff;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            transition: all .3s;
+        }
+        .hoe-checkbox-inner:after {
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            position: absolute;
+            display: block;
+            content: " ";
+            font-size: 0;
+            top: 3px;
+            left: 2px;
+            width: 6px;
+            height: 3px;
+            border: 2px solid #fff;
+            background: transparent;
+            border-top: none;
+            border-right: none;
+            -webkit-transform: rotate(-45deg) scale(0);
+            -moz-transform: rotate(-45deg) scale(0);
+            -ms-transform: rotate(-45deg) scale(0);
+            transform: rotate(-45deg) scale(0);
+            -webkit-transition: all .12s ease-in-out;
+            -moz-transition: all .12s ease-in-out;
+            transition: all .12s ease-in-out;
+        }
+        .hoe-checkbox-wrap.checked .hoe-checkbox-inner {
+            border-color: #27f;
+            background: #38f;
+        }
+        .hoe-checkbox-wrap.checked .hoe-checkbox-inner:after {
+            -webkit-transform: rotate(-45deg) scale(1);
+            -moz-transform: rotate(-45deg) scale(1);
+            -ms-transform: rotate(-45deg) scale(1);
+            transform: rotate(-45deg) scale(1);
+        }
+
+        /*datetime*/
+        .hoe-datetime-picker {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display: inline-block;
+            line-height: normal;
+            position: relative;
+        }
+        .sold-time-field .hoe-datetime-picker {
+            margin-left: 10px;
+        }
+        .hoe-datetime-picker .picker-input {
+            color: #999;
+            position: relative;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 183px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 12px;
+            background: #fff;
+            border-radius: 2px;
+            padding: 0 10px;
+        }
+        .hoe-datetime-picker .picker-input-filled {
+            color: #333;
+        }
+        .hoe-input-wrapper {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: flex;
+            position: relative;
+            height: 30px;
+            max-height: 36px;
+            line-height: 28px;
+            width: 173px;
+        }
+        .hoe-datetime-picker .picker-input .hoe-input {
+            background: inherit;
+            color: inherit;
+        }
+        
+        /*pick icon*/
+        .hoeicon {
+            display: inline-block;
+            speak: none;
+            font-style: normal;
+            vertical-align: baseline;
+            text-align: center;
+            text-transform: none;
+            font-variant: normal;
+            text-rendering: auto;
+            text-decoration: inherit;
+            line-height: 1;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .hoeicon:before {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display: block;
+            font-family: 'Simple-Line-Icons';
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            -webkit-font-smoothing: antialiased;
+        }
+        .hoeicon-calendar-o:before {
+            content: "\e075";
+        }
+        .hoe-datetime-picker .picker-input .hoeicon {
+            line-height: 30px;
+            position: absolute;
+            right: 10px;
+            top: 0;
+            color: #bbb;
+        }
+        .hoe-datetime-picker .picker-input .hoeicon-calendar-o {
+            display: block;
+        }
+
+        /*pick clear icon*/
+        .hoeicon-close-circle:before {
+            content: "\e082";
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display: block;
+            font-family: 'Simple-Line-Icons';
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            -webkit-font-smoothing: antialiased;
+        }
+        .hoe-datetime-picker .picker-input .hoeicon {
+            line-height: 30px;
+            position: absolute;
+            right: 10px;
+            top: 0;
+            color: #bbb;
+        }
+        .hoe-datetime-picker .picker-input .hoeicon-close-circle {
+            display: none;
+        }
+        .hoe-datetime-picker .picker-input-filled:hover .hoeicon-close-circle{
+            display:block
+        }
+        .hoe-datetime-picker .picker-input-filled:hover .hoeicon-calendar-o{
+            display:none;
+        }
+
+        /*footer*/
+        .app-design {
+            min-width: 880px;
+            width: 880px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .app-design .app-actions {
+            position: fixed;
+            bottom: 0;
+            z-index: 10;
+            left: 210px;
+            right: 210px!important;
+            width: auto;
+            min-width: 880px;
+            -webkit-transition: right .5s;
+            -moz-transition: right .5s;
+            transition: right .5s;
+        }
+
+        .app-actions .form-actions {
+            text-align: center;
+            margin: 0;
+            background: #ffc;
+            padding: 10px;
+            border-top: none;
+        }
+        .app-footer {
+            display: none;
         }
     </style>
 @endsection
@@ -207,1347 +471,369 @@
         <li><span class="text-muted">产品管理</span></li>
         <li class="active"><span class="text-muted">{{ $item->name ?? '新增产品' }}</span></li>
     </ul>
-    <div class="wrapper center-block" style="background-color: white;">
-        <form class="form-validation form-horizontal form-sm fm-goods-info" action="{{ route('venue-store') }}" method="post">
-            {{ csrf_field() }}
-            <input type="hidden" name="id" value="{{ $item->id or 0 }}">
-            <div class="tab-container">
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="" class="ng-binding">1. 选择商品品类</a>
-                    </li>
-                    <li disabled="disabled" active="steps.step2" select="steps.percent=30" class="ng-scope ng-isolate-scope disabled">
-                        <a href="" class="ng-binding">2. 编辑基本信息</a>
-                    </li>
-                    <li disabled="disabled" active="steps.step3" select="steps.percent=60" class="ng-scope ng-isolate-scope disabled">
-                        <a href="" class="ng-binding">3. 编辑商品详情</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active">
-                        <div class="wrapper-md text-center" style="padding-bottom: 0px;">
-                            <div class="row">
-                            @foreach($tops as $row)
-                                <div class="col-sm-3">
-                                    <div class="panel wrapper-md bg-light lter category">
-                                        {{ $row->name }}
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="panel wrapper-md bg-light lter category">
-                                        {{ $row->name }}
-                                    </div>
-                                </div>
-
-                            @endforeach
-                            </div>
-                            <div class="m-t m-b">
-                                <button type="submit" class="btn btn-info btn-sm" disabled="disabled">下一步</button>
-                            </div>
+    <div class="padder padder-v m-l-sm m-b-sm m-r-sm center-block bg-white" style="max-width: 880px;">
+        <div class="bc-steps">
+            <div class="step-item active">
+                <div class="item-cont">1. 编辑基本信息</div>
+            </div>
+            <div class="step-item">
+                <div class="item-cont">2. 编辑商品详情</div>
+            </div>
+        </div>
+        <div>
+            <form class="form-horizontal">
+                <div class="block">
+                    <div class="block">
+                        <div class="goods-block-head">
+                            <div class="goods-block-cont-title">商品类型</div>
                         </div>
-                    </div>
-                    <div class="tab-pane active">
-                        <div class="hbox bg-light lter goods-info-group">
-                            <div class="col text-center b-r b-white info-group-title" style="width: 106px;">
-                                <div class="group-inner">基本信息</div>
-                            </div>
-                            <div class="col b-l b-l b-white info-group-cont">
-                                <div class="group-inner">
-                                    <div class="control-group">
-                                        <label class="control-label">商品类目：</label>
-                                        <div class="controls">
-                                            <div class="static-value">食品</div>
-                                            <input type="hidden" name="class_1">
-                                            <input type="hidden" name="goods_class">
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <label class="control-label">购买方式：</label>
-                                        <div class="controls">
-                                            <label class="radio inline">
-                                                <input type="radio" name="shop_method" value="1" checked="">在有赞购买
+                        <div class="block">
+                            <div class="goods-block-cont-inner">
+                                <div class="form-control-group no-label">
+                                    <label class="form-control-label"></label>
+                                    <div class="form-control-controls">
+                                        <div class="hoe-radio-group grid-radio">
+                                            <label class="hoe-radio-wrap checked">
+                                                <span class="hoe-radio">
+                                                    <span class="hoe-radio-inner"></span>
+                                                    <input type="radio" value="on">
+                                                </span>
+                                                <span>
+                                                    <span class="radio-name">实物商品</span>
+                                                    <span class="radio-desc">（物流发货）</span>
+                                                </span>
                                             </label>
-                                            <label class="radio inline">
-                                                <input type="radio" name="shop_method" value="0">链接到外部购买
-                                                <span class="js-outbuy-tip hide">(每家店铺仅支持50个外部购买商品)</span>
+                                            <label class="hoe-radio-wrap">
+                                                <span class="hoe-radio">
+                                                    <span class="hoe-radio-inner"></span>
+                                                    <input type="radio" value="on">
+                                                </span>
+                                                <span>
+                                                    <span class="radio-name">虚拟商品</span>
+                                                    <span class="radio-desc">（无需物流）</span>
+                                                </span>
                                             </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <label class="control-label">商品分组：</label>
-                                        <div class="controls">
-                                            <select ui-jq="chosen" multiple name="tag" data-placeholder="选择商品分组" style="width: 220px;    height: 30px;">
-                                                <option value="74060531">列表中隐藏</option>
-                                            </select>
-                                            <p class="inline m-t-xxs m-b-n">
-                                                <a class="text-info">刷新</a>
-                                                <span>|</span>
-                                                <a class="text-info">新建分组</a>
-                                                <span>|</span>
-                                                <a class="text-info">帮助</a>
-                                            </p>
-                                            <p class="help-desc js-tag-desc hide">
-                                                使用“列表中隐藏”分组，商品将不出现在商品列表中
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="control-label">商品类型：</label>
-                                        <div class="controls">
-
-
-                                            <label class="radio inline">
-                                                <input type="radio" name="shipment" value="0" checked="">实物商品
-                                                <span class="gray">（物流发货）</span>
+                                            <label class="hoe-radio-wrap">
+                                                <span class="hoe-radio">
+                                                    <span class="hoe-radio-inner"></span>
+                                                    <input type="radio" value="on">
+                                                </span>
+                                                <span>
+                                                    <span class="radio-name">电子卡券</span>
+                                                    <span class="radio-desc">（无需物流）</span>
+                                                </span>
                                             </label>
-                                            <label class="radio inline">
-                                                <input type="radio" name="shipment" value="2">虚拟商品
-                                                <span class="gray">（无需物流）</span>
+                                            <label class="hoe-radio-wrap">
+                                                <span class="hoe-radio">
+                                                    <span class="hoe-radio-inner"></span>
+                                                    <input type="radio" value="on">
+                                                </span>
+                                                <span>
+                                                    <span class="radio-name">酒店商品</span>
+                                                    <span class="radio-desc">（无需物流）</span>
+                                                </span>
                                             </label>
-                                            <label class="radio inline">
-                                                <input type="radio" name="shipment" value="3">电子卡券
-                                                <span class="gray">（无需物流）</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="js-electric-card" style="display: none;">
-                                        <div class="control-group">
-                                            <label class="control-label">商品有效期：<br><span class="gray">(发布后不能修改) </span></label>
-                                            <div class="controls">
-                                                <label class="radio inline has-input">
-                                                    <input type="radio" name="valid_period" value="0" checked="">长期有效
-                                                </label>
-                                                <label class="radio inline has-input">
-                                                    <input type="radio" name="valid_period" value="1">自定义有效期
-                                                </label>
-                                                <div class="js-valid-period valid-period" style="display: none;">
-                                                    <div class="input-append">
-                                                        <input type="text" class="input-small hasDatepicker" id="item_validity_start" name="item_validity_start" value="" readonly="">
-                                                        <label for="item_validity_start" class="add-on">
-                                                            <i class="icon-calendar"></i>
-                                                        </label>
-                                                    </div>
-                                                    至
-                                                    <div class="input-append">
-                                                        <input type="text" class="input-small hasDatepicker" id="item_validity_end" name="item_validity_end" value="" readonly="">
-                                                        <label for="item_validity_end" class="add-on">
-                                                            <i class="icon-calendar"></i>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <label class="control-label">预售设置：</label>
-                                        <div class="controls">
-                                            <label class="checkbox inline ">
-                                                <input type="checkbox" name="pre_sale" value="1">预售商品
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="control-group js-pre-sale-item" style="margin-left: 86px; display: none;">
-                                        <label class="control-label"><em class="required">*</em>发货时间：</label>
-                                        <div class="controls">
-                                            <label class="radio inline">
-                                            <span class="input-append">
-                                                <input class="etd-type" type="radio" name="etd_type" value="0" checked="">
-                                                <input type="text" class="input-small hasDatepicker" id="etd_start" name="etd_start" value="" placeholder="请选择时间"><label for="etd_start" class="add-on">
-                                                    <i class="icon-calendar"></i>
-                                                </label>
-                                            </span>
-                                                开始发货
-                                            </label>
-
-                                            <label class="radio inline">
-                                                <input class="etd-type" type="radio" name="etd_type" value="1">
-                                                付款成功
-                                                <input name="etd_days" class="input-tiny" type="number" min="1" max="90" value="">
-                                                天后发货
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="c-gray ui-box js-pre-sale-item" style="margin-left: 114px; display: none;">
-                                        注意：只允许设置90天内的发货时间 ，请务必按照约定时间发货以免引起客户投诉。
-                                        <a href="https://bbs.youzan.com/forum.php?mod=viewthread&amp;tid=593751" target="_blank" class="new-window">帮助</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hbox bg-light lter m-t-xs goods-info-group">
-                            <div class="col text-center b-r b-white info-group-title" style="width: 106px;">
-                                <div class="group-inner">库存/规格</div>
-                            </div>
-                            <div class="col b-l b-l b-white info-group-cont">
-                                <div class="group-inner">
-
-                                    <div class="js-goods-sku control-group">
-                                        <label class="js-goods-sku-control-label control-label">商品规格：</label>
-                                        <div id="sku-region" class="controls">
-                                            <div class="sku-group">
-                                                <div class="js-sku-list-container">
-                                                    <div class="sku-sub-group">
-                                                        <h3 class="sku-group-title">
-                                                            <div class="select2-container js-sku-name"
-                                                                 id="s2id_autogen5" style="width: 100px;">
-                                                                <a href="javascript:void(0)" onclick="return false;" class="select2-choice"
-                                                                        tabindex="-1">
-                                                                    <span class="select2-chosen">尺寸</span>
-                                                                    <abbr class="select2-search-choice-close"></abbr>
-                                                                    <span class="select2-arrow">
-                                                                        <b></b>
-                                                                    </span>
-                                                                </a>
-                                                                <input class="select2-focusser select2-offscreen"
-                                                                        type="text" id="s2id_autogen6">
-                                                            </div>
-                                                            <input type="hidden" name="sku_name" value="2"
-                                                                   class="js-sku-name select2-offscreen" tabindex="-1">
-                                                            <label for="js-addImg-function" class="addImg-radio">
-                                                                <input type="checkbox" id="js-addImg-function">
-                                                                添加规格图片
-                                                            </label>
-                                                            <a class="js-remove-sku-group remove-sku-group">×</a>
-                                                        </h3>
-                                                        <div class="js-sku-atom-container sku-group-cont">
-                                                            <div>
-                                                                <div class="js-sku-atom-list sku-atom-list">
-                                                                    <div class="sku-atom active"><span
-                                                                                data-atom-id="432">1</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap ">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="sku-atom active"><span
-                                                                                data-atom-id="433">2</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap ">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="sku-atom active"><span
-                                                                                data-atom-id="434">3</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap ">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="sku-atom active"><span
-                                                                                data-atom-id="1265">4</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap ">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="sku-atom active"><span
-                                                                                data-atom-id="783">5</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap ">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="sku-atom active"><span
-                                                                                data-atom-id="189">6</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap ">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="sku-atom active"><span
-                                                                                data-atom-id="1205">7</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap ">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="sku-atom active"><span
-                                                                                data-atom-id="1207">8</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap ">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-
-                                                                <a href="javascript:;" class="js-add-sku-atom add-sku"
-                                                                   style="display: inline-block;">+添加</a>
-
-
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="sku-group-cont" id="js-tip-instruction"
-                                                             style="padding: 0px 10px; display: block;">
-                                                            <p class="help-desc">目前只支持为第一个规格设置不同的规格图片</p>
-                                                            <p class="help-desc">设置后，用户选择不同规格会显示不同图片</p>
-                                                            <p class="help-desc">建议尺寸：640 x 640像素</p>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="sku-sub-group">
-                                                        <h3 class="sku-group-title">
-                                                            <div class="select2-container js-sku-name"
-                                                                 id="s2id_autogen7" style="width: 100px;"><a
-                                                                        href="javascript:void(0)"
-                                                                        onclick="return false;" class="select2-choice"
-                                                                        tabindex="-1"> <span
-                                                                            class="select2-chosen">颜色</span><abbr
-                                                                            class="select2-search-choice-close"></abbr>
-                                                                    <span class="select2-arrow"><b></b></span></a><input
-                                                                        class="select2-focusser select2-offscreen"
-                                                                        type="text" id="s2id_autogen8"></div>
-                                                            <input type="hidden" name="sku_name" value="1"
-                                                                   class="js-sku-name select2-offscreen" tabindex="-1">
-
-
-                                                            <a class="js-remove-sku-group remove-sku-group">×</a>
-
-                                                        </h3>
-                                                        <div class="js-sku-atom-container sku-group-cont">
-                                                            <div>
-                                                                <div class="js-sku-atom-list sku-atom-list">
-                                                                    <div class="sku-atom"><span
-                                                                                data-atom-id="2466">B</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap hide">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="sku-atom"><span
-                                                                                data-atom-id="3014">C</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap hide">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="sku-atom"><span
-                                                                                data-atom-id="7161">D</span>
-
-                                                                        <div class="atom-close close-modal small js-remove-sku-atom">
-                                                                            ×
-                                                                        </div>
-
-
-                                                                        <div class="upload-img-wrap hide">
-                                                                            <div class="arrow"></div>
-                                                                            <div class="js-upload-container"
-                                                                                 style="position:relative;">
-
-                                                                                <div class="add-image js-btn-add">+
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-
-                                                                <a href="javascript:;" class="js-add-sku-atom add-sku"
-                                                                   style="display: inline-block;">+添加</a>
-
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="js-sku-group-opts sku-sub-group" style="display: block;">
-                                                    <h3 class="sku-group-title">
-                                                        <button type="button" class="js-add-sku-group btn">添加规格项目
-                                                        </button>
-
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="help-desc hotel-sku-help" style="margin-left: 116px;display: none;">
-                                            酒店类商品暂只支持1种规格项</p>
-                                    </div>
-
-
-                                    <div class="js-goods-stock control-group" style="display: block;">
-                                        <label class="js-goods-stock-control-label control-label">商品库存：</label>
-                                        <div id="stock-region" class="controls sku-stock">
-                                            <table class="table-sku-stock">
-                                                <thead>
-                                                <tr>
-
-                                                    <th class="text-center">尺寸</th>
-
-                                                    <th class="text-center">颜色</th>
-
-                                                    <th class="th-price">价格（元）</th>
-
-                                                    <th class="th-stock">库存</th>
-                                                    <th class="th-code">商家编码</th>
-                                                    <th class="text-cost-price">成本价</th>
-
-                                                    <th class="text-right">销量</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td data-atom-id="432" rowspan="3">1</td>
-                                                    <td data-atom-id="2466" rowspan="1">B</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="3014" rowspan="1">C</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="7161" rowspan="1">D</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="433" rowspan="3">2</td>
-                                                    <td data-atom-id="2466" rowspan="1">B</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="3014" rowspan="1">C</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="7161" rowspan="1">D</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="434" rowspan="3">3</td>
-                                                    <td data-atom-id="2466" rowspan="1">B</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="3014" rowspan="1">C</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="7161" rowspan="1">D</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="1265" rowspan="3">4</td>
-                                                    <td data-atom-id="2466" rowspan="1">B</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="3014" rowspan="1">C</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="7161" rowspan="1">D</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="783" rowspan="3">5</td>
-                                                    <td data-atom-id="2466" rowspan="1">B</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="3014" rowspan="1">C</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="7161" rowspan="1">D</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="189" rowspan="3">6</td>
-                                                    <td data-atom-id="2466" rowspan="1">B</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="3014" rowspan="1">C</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="7161" rowspan="1">D</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="1205" rowspan="3">7</td>
-                                                    <td data-atom-id="2466" rowspan="1">B</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="3014" rowspan="1">C</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="7161" rowspan="1">D</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="1207" rowspan="3">8</td>
-                                                    <td data-atom-id="2466" rowspan="1">B</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="3014" rowspan="1">C</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td data-atom-id="7161" rowspan="1">D</td>
-                                                    <td>
-                                                        <input data-stock-id="0" type="text" name="sku_price"
-                                                               class="js-price input-mini" value="" maxlength="10">
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="popover-hover">
-                                                            <input type="text" name="stock_num"
-                                                                   class="js-stock-num input-mini" value=""
-                                                                   maxlength="9">
-
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="code" class="js-code input-small"
-                                                               value="">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="cost_price"
-                                                               class="js-cost-price input-small" value="">
-                                                    </td>
-                                                    <td class="text-right">0</td>
-                                                </tr>
-                                                </tbody>
-                                                <tfoot>
-                                                <tr>
-                                                    <td colspan="6">
-                                                        <div class="batch-opts">
-                                                            批量设置：
-                                                            <span class="js-batch-type">
-                                                                <a class="js-batch-price" href="javascript:;">价格</a>
-                                                                &nbsp;&nbsp;
-                                                                <a class="js-batch-stock" href="javascript:;">库存</a>
-                                                            </span>
-                                                            <span class="js-batch-form" style="display: none;">
-                                                                <input type="text" class="js-batch-txt input-mini" placeholder="">
-                                                                <a class="js-batch-save" href="javascript:;">保存</a>
-                                                                <a class="js-batch-cancel" href="javascript:;">取消</a>
-                                                                <p class="help-desc"></p>
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <label class="control-label"><em class="required">*</em>总库存：</label>
-                                        <div class="controls">
-                                            <div class="popover-hover">
-                                                <input type="text" maxlength="9" class="form-control input-sm"
-                                                       name="total_stock" value="0" readonly="">
-                                            </div>
-                                            <label class="checkbox inline">
-                                                <input type="checkbox" name="hide_stock" value="0">页面不显示商品库存
-                                            </label>
-
-                                            <p class="help-desc help-desc-0">总库存为 0 时，会上架到『已售罄的商品』列表里</p>
-                                            <p class="help-desc help-desc-1">发布后商品同步更新，以库存数字为准</p>
-
-                                        </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="control-label">商家编码：</label>
-                                        <div class="controls">
-                                            <input type="text" class="form-control input-sm inline" name="goods_no"
-                                                   value="" style="width: 130px;">
-                                            <a href="javascript:;" class="js-help-notes circle-help">?</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="hbox bg-light lter m-t-xs goods-info-group">
-                            <div class="col text-center b-r b-white info-group-title" style="width: 106px;">
-                                <div class="group-inner">商品信息</div>
-                            </div>
-                            <div class="col b-l b-l b-white info-group-cont">
-                                <div class="group-inner">
-                                    <div class="control-group">
-                                        <label class="control-label">
-                                            <em class="required">*</em>商品名：
-                                        </label>
-                                        <div class="controls">
-                                            <input type="text" name="title" value="" maxlength="100" class="form-control inline input-sm" style="width: 330px;">
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <label class="control-label"><em class="required">*</em>价格：</label>
-                                        <div class="controls">
-                                            <div class="input-group input-group-sm form-inline" style="width: 130px;float: left;">
-                                                <span class="input-group-addon">￥</span>
-                                                <input type="text" maxlength="10" name="price" value="0.00" class="form-control">
-                                            </div>
-                                            <input type="text" placeholder="原价：¥99.99" name="origin" value="" class="form-control inline input-sm m-l-xs" style="width: 104px;">
-                                            <input type="text" placeholder="成本价：￥9.9" name="cost_price" value="" class="form-control inline input-sm" style="width: 104px;">
-
-
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <label class="control-label"><em class="required">*</em>商品图：</label>
-                                        <div class="controls">
-                                            <input type="hidden" name="picture">
-                                            <div class="picture-list ui-sortable">
-                                                <ul class="js-picture-list app-image-list clearfix">
-
-                                                    <li class="sort">
-                                                        <img src="https://img.yzcdn.cn/upload_files/2015/05/14/Fq9Xi4vSuS8D804oC_1CD04sb8uA.png?imageView2/2/w/100/h/100/q/75/format/webp" data-src="https://img.yzcdn.cn/upload_files/2015/05/14/Fq9Xi4vSuS8D804oC_1CD04sb8uA.png" class="js-img-preview">
-
-                                                        <a class="js-delete-picture close-modal small hide">×</a>
-
-                                                    </li>
-
-
-                                                    <li class="sort">
-                                                        <img src="https://img.yzcdn.cn/upload_files/2015/05/14/FlWbchx5Djd0WJcQhWS95tvSBNGJ.png?imageView2/2/w/100/h/100/q/75/format/webp" data-src="https://img.yzcdn.cn/upload_files/2015/05/14/FlWbchx5Djd0WJcQhWS95tvSBNGJ.png" class="js-img-preview">
-
-                                                        <a class="js-delete-picture close-modal small hide">×</a>
-
-                                                    </li>
-
-
-                                                    <li class="sort">
-                                                        <img src="https://img.yzcdn.cn/upload_files/2015/05/14/FrfWhZ2NUN7oFwXoQCpujjjmiRBF.png?imageView2/2/w/100/h/100/q/75/format/webp" data-src="https://img.yzcdn.cn/upload_files/2015/05/14/FrfWhZ2NUN7oFwXoQCpujjjmiRBF.png" class="js-img-preview">
-
-                                                        <a class="js-delete-picture close-modal small hide">×</a>
-
-                                                    </li>
-
-
-                                                    <li>
-                                                        <a href="javascript:;" class="add-goods js-add-picture">+加图</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <p class="help-desc">建议尺寸：640 x 640 像素；你可以拖拽图片调整图片顺序。</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <label class="control-label">主图视频：</label>
-                                        <div class="controls">
-                                            <div class="js-video-list">
-
-                                                <div class="video-edit-wrap">
-
-                                                    <a href="javascript:;" class="add-video js-add-video">+</a>
-                                                    <p class="help-desc">目前仅支持在微信中播放，建议时长9-30秒，建议视频宽高比16:9</p>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="js-buy-url-group control-group hide">
-                                        <label class="control-label"><em class="required">*</em>外部购买地址：</label>
-                                        <div class="controls">
-                                            <input type="text" name="buy_url" value="" class="input-xxlarge js-buy-url">
-                                            <a style="display: none;" href="javascript:;" class="js-help-notes circle-help">?</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="js-electric-card-info" style="display: none;">
-                                        <div class="control-group">
-                                            <label class="control-label"><em class="required">*</em>电子凭证<br>生效时间:<br><span class="gray">(买家支付成功后) </span></label>
-                                            <div class="controls">
-                                                <label class="radio inline has-input">
-                                                    <input type="radio" name="effective_type" value="0" checked="">
-                                                    立即生效
-                                                </label>
-                                                <label class="radio inline has-input">
-                                                    <input type="radio" name="effective_type" value="1">
-                                                    <input type="number" class="input-tiny" name="effective_delay_hours" value="">
-                                                    小时后生效
-                                                </label>
-                                                <label class="radio inline has-input">
-                                                    <input type="radio" name="effective_type" value="2">
-                                                    次日生效
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="control-group">
-                                            <label class="control-label">节假日是否可用：</label>
-                                            <div class="controls">
-                                                <label class="radio inline">
-                                                    <input type="radio" name="holidays_available" value="1" checked="">
-                                                    是
-                                                </label>
-                                                <label class="radio inline">
-                                                    <input type="radio" name="holidays_available" value="0">
-                                                    否
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="m-t m-b text-center">
-                            <button type="submit" class="btn btn-info btn-sm" disabled="disabled">下一步</button>
-                        </div>
-                    </div>
-                    <div class="tab-pane active">
-                        <textarea id="descBox" name="description" ui-editor
-                                  class="form-control" rows="12">{{ $item->description or '' }}</textarea>
-                        <div class="m-t m-b text-center">
-                            <button type="submit" class="btn btn-success btn-sm" disabled="disabled">提&nbsp;&nbsp;&nbsp;&nbsp;交</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+                <div class="block">
+                    <div class="block">
+                        <div class="goods-block-head">
+                            <div class="goods-block-cont-title">基本信息</div>
+                        </div>
+                        <div class="block">
+                            <div class="goods-block-cont-inner">
+                                <div class="form-control-group">
+                                    <label class="form-control-label"><em class="form-required">*</em>商品名：</label>
+                                    <div class="form-control-controls">
+                                        <span>
+                                            <div class="input-wrapper input-xxlarge">
+                                                <input type="text" class="hoe-input" value="">
+                                            </div>
+                                        </span>
+                                        <p class="form-info-error-desc">商品名称必须填写，最多100个字</p>
+                                    </div>
+                                </div>
+                                <div class="form-control-group">
+                                    <label class="form-control-label">分享描述：</label>
+                                    <div class="form-control-controls">
+                                        <span>
+                                            <div class="input-wrapper input-xxlarge">
+                                                <input type="text" class="hoe-input" value="">
+                                            </div>
+                                            <p class="help-block">微信分享给好友时会显示，建议36个字以内</p>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-control-group has-error upload-field">
+                                    <label class="form-control-label"><em class="form-required">*</em>商品图：</label>
+                                    <div class="form-control-controls">
+                                        <div>
+                                            <ul class="app-image-list clearfix">
+                                                <li class="">
+                                                    <div class="rc-upload">
+                                                        <div class="">
+                                                            <a class="add-goods" href="javascript:;">+添加图片</a>
+                                                        </div>
+                                                        <p class="rc-upload-tips"></p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <p class="help-block">建议尺寸：800*800像素，你可以拖拽图片调整顺序，最多上传15张</p>
+                                        </div>
+                                        <p class="form-info-error-desc">最少需要添加一张商品图</p>
+                                    </div>
+                                </div>
+                                <div class="form-control-group no-label">
+                                    <label class="form-control-label"></label>
+                                    <div class="form-control-controls">
+                                        <div class="fold-field">
+                                            <i class="fold-field-icon is-close"></i>
+                                            <span class="fold-field-txt">更多设置</span>
+                                        </div>
+                                     </div>
+                                </div>
+                                <div class="form-control-group">
+                                    <label class="form-control-label">商品类目：</label>
+                                    <div class="form-control-controls">
+                                        <div>
+                                            <div class="zent-popover-wrapper zent-select select-large" style="display: inline-block;">
+                                                <div class="zent-select-text">选择所属行业类目</div>
+                                            </div>
+                                            <p class="help-block">商品类目及类目细项，<a href="http://kdt.im/RL72Svr1m" target="_blank" rel="noopener noreferrer" class="new-window">点此查看</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-control-group">
+                                    <label class="form-control-label">商品分组：</label>
+                                    <div class="form-control-controls">
+                                        <div>
+                                            <div class="zent-popover-wrapper zent-select select-large" style="display: inline-block;">
+                                                <div class="zent-select-tags">选择商品分组</div>
+                                            </div>
+                                            <p class="help-inline">
+                                                <a href="javascript:;">刷新</a>
+                                                <span> | </span>
+                                                <a class="new-window" target="_blank" rel="noopener noreferrer" href="//www.youzan.com/v2/showcase/tag#create">新建分组</a>
+                                                <span> | </span>
+                                                <a class="new-window" target="_blank" rel="noopener noreferrer" href="https://bbs.youzan.com/forum.php?mod=viewthread&amp;tid=15">如何创建商品分组？</a>
+                                            </p>
+                                            <p class="help-block hide">使用“列表中隐藏”分组，商品将不出现在商品列表中</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-control-group upload-field">
+                                    <label class="form-control-label">主图视频：</label>
+                                    <div class="form-control-controls">
+                                        <div class="video-edit-wrap">
+                                            <div>
+                                                <a href="javascript:;" class="add-video">+ 添加视频</a>
+                                                <p class="help-block">目前仅支持在微信中播放，建议时长9-30秒，建议视频宽高比16:9</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    <div class="block">
+                        <div class="goods-block-head">
+                            <div class="goods-block-cont-title">价格库存</div>
+                        </div>
+                        <div class="block">
+                            <div class="goods-block-cont-inner">
+                                <div class="form-control-group sku-field">
+                                    <label class="form-control-label">商品规格：</label>
+                                    <div class="form-control-controls">
+                                        <div>
+                                            <div class="rc-sku">
+                                                <div>
+                                                    <div class="rc-sku-group">
+                                                        <h3 class="group-title">
+                                                            <button type="button" class="zent-btn">添加规格项目</button>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="help-block">如有颜色、尺码等多种规格，请添加商品规格</p></div>
+                                        </div>
+                                </div>
+                                <div class="form-control-group stock-field hide"><label
+                                            class="form-control-label">规格明细：
+                                        </label>
+                                    <div class="form-control-controls">
+                                        <div class="table-sku-wrap"></div>
+                                        </div>
+                                </div>
+                                <div class="form-control-group "><label class="form-control-label"><em
+                                                class="form-required">*</em>价格：
+                                        </label>
+                                    <div class="form-control-controls">
+                                        <div><span class="input-small"><div class="zent-number-input-wrapper"><div
+                                                            class="input-wrapper hoe-input-addons"><span
+                                                                class="hoe-input-addon-before">¥</span><input
+                                                                type="text" class="hoe-input" value="1.00"></div></div></span>
+                                        </div>
+                                        </div>
+                                </div>
+                                <div class="form-control-group "><label class="form-control-label">
+                                        划线价：</label>
+                                    <div class="form-control-controls">
+                                        <div><span class="input-small" style="margin-left: 0px;"><div
+                                                        class="input-wrapper"><input type="text" class="hoe-input"
+                                                                                          value=""></div></span>
+                                            <div class="help-block">商品没有优惠的情况下，划线价在商品详情会以划线形式显示。
+                                                
+                                                <div class="zent-popover-wrapper zent-pop-wrapper"
+                                                     style="display: inline-block;"><a href="javascript:;">示例</a>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                </div>
+                                <div class="form-control-group total-stock-field"><label
+                                            class="form-control-label"><em class="form-required">*</em>
+                                        库存：</label>
+                                    <div class="form-control-controls">
+                                        <div><span class="input-small"><div class="zent-number-input-wrapper"><div
+                                                            class="input-wrapper"><input type="text"
+                                                                                              class="hoe-input"
+                                                                                              name="total_stock"
+                                                                                              value="999999"></div></div></span>
+                                            <div><label class="show-stock-checkbox zent-checkbox-wrap"><span
+                                                            class="zent-checkbox"><span
+                                                                class="zent-checkbox-inner"></span><input
+                                                                type="checkbox" name="hide_stock"
+                                                                value="on"></span><span>商品详情不显示剩余件数</span></label></div>
+                                            <p class="help-block">库存为 0 时，会放到『已售罄』的商品列表里，保存后买家看到的商品可售库存同步更新</p></div>
+                                        </div>
+                                </div>
+                                <div class="form-control-group no-label"><label
+                                            class="form-control-label">
+                                        </label>
+                                    <div class="form-control-controls">
+                                        <div class="fold-field"><i
+                                                    class="hoeicon hoeicon-caret-down fold-field__icon"></i><span
+                                                    class="fold-field__txt">折叠更多设置</span></div>
+                                        </div>
+                                </div>
+                                <div class="form-control-group small-field"><label
+                                            class="form-control-label">商品编码：
+                                        </label>
+                                    <div class="form-control-controls">
+                                        <div class="input-wrapper"><input type="text" class="hoe-input"
+                                                                               name="goods_no" value=""></div>
+                                        
+                                        </div>
+                                </div>
+                                <div class="form-control-group "><label class="form-control-label">
+                                        成本价：</label>
+                                    <div class="form-control-controls">
+                                        <div><span class="input-small" style="margin-left: 0px;"><div
+                                                        class="zent-number-input-wrapper"><div
+                                                            class="input-wrapper hoe-input-addons"><span
+                                                                class="hoe-input-addon-before">¥</span><input
+                                                                type="text" class="hoe-input"
+                                                                value=""></div></div></span>
+                                            <p class="help-block">成本价未来会用于营销建议，利润分析等</p></div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    <div class="block">
+                        <div class="goods-block-head">
+                            <div class="goods-block-cont-title">其他信息</div>
+                        </div>
+                        <div class="block">
+                            <div class="goods-block-cont-inner">
+                                <div class="form-control-group weight-field hide">
+                                    <label class="form-control-label"><em class="form-required">*</em>物流重量：</label>
+                                    <div class="form-control-controls">
+                                        <div>
+                                            <span class="input-small">
+                                                <div class="form-control-group stock-item-small-field">
+                                                    <label class="form-control-label"></label>
+                                                    <div class="form-control-controls">
+                                                        <div class="zent-number-input-wrapper">
+                                                            <div class="input-wrapper hoe-input-addons">
+                                                                <span class="hoe-input-addon-before">Kg</span>
+                                                                <input type="text" class="hoe-input" name="_ignore_item_weight" value="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                            <p class="help-block">当前运费模版，按物流重量（含包装）计费，需要输入重量</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-control-group sold-time-field">
+                                    <label class="form-control-label">上架时间：</label>
+                                    <div class="form-control-controls">
+                                        <div class="hoe-radio-group single-radio">
+                                            <label class="hoe-radio-wrap checked">
+                                                <span class="hoe-radio">
+                                                    <span class="hoe-radio-inner"></span>
+                                                    <input type="radio" value="on">
+                                                </span>
+                                                <span><span>立即上架售卖</span></span>
+                                            </label>
+                                            <label class="hoe-radio-wrap">
+                                                <span class="hoe-radio">
+                                                    <span class="hoe-radio-inner"></span>
+                                                    <input type="radio" value="on">
+                                                </span>
+                                                <span>
+                                                    <div class="inline">
+                                                        <span>自定义上架时间</span>
+                                                        <div class="hoe-datetime-picker">
+                                                            <div class="hoe-popover-wrapper" style="display: block;">
+                                                                <div class="picker-input"><!--picker-input-filled-->
+                                                                    <div class="hoe-input-wrapper">
+                                                                        <input type="text" class="hoe-input" value="请选择上架售卖时间">
+                                                                    </div>
+                                                                    <span class="hoeicon hoeicon-calendar-o"></span>
+                                                                    <span class="hoeicon hoeicon-close-circle"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </label>
+                                            <label class="hoe-radio-wrap">
+                                                <span class="hoe-radio">
+                                                    <span class="hoe-radio-inner"></span>
+                                                    <input type="radio" value="on">
+                                                </span>
+                                                <span><span>暂不售卖，放入仓库</span></span>
+                                            </label>
+                                        </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-design">
+                    <div class="app-actions">
+                        <div class="form-actions text-center">
+                            <button type="button" class="btn btn-default btn-sm">保存并查看</button>
+                            <button type="button" class="btn btn-info btn-sm">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="display: none;"></div>
     </div>
 @stop
 
@@ -1556,7 +842,14 @@
         $(function() {
             $('.panel.category').click(function () {
                 console.log($(this).text());
-            })
+            });
+
+            // SKU处理事件
+            $("#sku-region")
+                .on('click', '.sku-group .sku-sub-group .sku-group-title .addImg-radio>input', function () {
+                    var $atoms = $(this).closest('.sku-sub-group').find('.sku-atom-list .sku-atom');
+                    $(this).is(':checked') ? $atoms.addClass('active') : $atoms.removeClass('active');
+                })
         });
     </script>
 @stop
