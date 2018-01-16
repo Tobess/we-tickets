@@ -28,6 +28,7 @@ mix
         'resources/assets/js/plugins/ui-tab.js',
         'resources/assets/js/plugins/ui-editor.js',
         'resources/assets/js/plugins/ui-area.js',
+        'resources/assets/js/plugins/ui-radio.js',
         'resources/assets/js/plugins/jquery.extend.ajax.js'
     ], 'public/js/app.js')
     .sass('resources/assets/sass/app.scss', 'public/css/app.css')

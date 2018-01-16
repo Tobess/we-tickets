@@ -131,6 +131,14 @@ $hoe-active:               #38f;
   display: none;
 }
 
+.hoe-radio-group.grid-radio .hoe-radio-wrap:first-child {
+  margin-left: 0;
+}
+
+.hoe-radio-group.grid-radio .hoe-radio-wrap:last-child {
+  margin-right: 0;
+}
+
 .hoe-radio-group.grid-radio .hoe-radio-wrap.checked:after {
   content: "";
   display: inline-block;

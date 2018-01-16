@@ -40,7 +40,7 @@
                             <td class="text-center">{{ $idx + 1  }}</td>
                             <td>{{ $row->name }}</td>
                             <td>
-                                <a class="btn btn-xs btn-info m-b-none" type="button" href="{{ route('venue-edit', ['id' => $row->id]) }}">编辑</a>
+                                <a class="btn btn-xs btn-info m-b-none" type="button" href="{{ route('items-edit', ['id' => $row->id]) }}">编辑</a>
                                 <button class="btn btn-xs btn-danger m-b-none" type="button" onClick="destroy('{{ $row->id }}')">删除</button>
                             </td>
                         </tr>
@@ -80,8 +80,8 @@
          */
         function destroy(id)
         {
-            if (confirm('您确定要删除此场馆吗?')) {
-                window.location.href='/platform/product/venue/destroy/'+id;
+            if (confirm('您确定要删除此商品吗?')) {
+                window.location.href='/platform/product/items/destroy/'+id;
             }
         }
     </script>

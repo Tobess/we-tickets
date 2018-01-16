@@ -54,10 +54,40 @@ Route::middleware('auth:platform')->group(function () {
         Route::get('items', 'Apps\Platform\Product\ItemsController@getIndex');
         // 编辑商品
         Route::get('items/edit/{id}', 'Apps\Platform\Product\ItemsController@getEdit')->name('items-edit');
+        // 保存商品
+        Route::post('items/store', 'Apps\Platform\Product\ItemsController@postStore');
+        // 删除供应商家
+        Route::get('items/destroy/{id}', 'Apps\Platform\Product\ItemsController@getDelete');
+
+        // 供应商家
+        Route::get('supplier', 'Apps\Platform\Product\SupplierController@getIndex');
+        // 编辑供应商家
+        Route::get('supplier/edit/{id}', 'Apps\Platform\Product\SupplierController@getEdit');
+        // 保存供应商家
+        Route::post('supplier/store', 'Apps\Platform\Product\SupplierController@postStore');
+        // 删除供应商家
+        Route::get('supplier/stop/{id}', 'Apps\Platform\Product\SupplierController@getStop');
+    });
+
+    // 销售
+    Route::prefix('sale')->group(function () {
+        // 分销商家
+        Route::get('distributor', 'Apps\Platform\Sale\DistributorController@getIndex');
+        // 编辑分销商家
+        Route::get('distributor/edit/{id}', 'Apps\Platform\Sale\DistributorController@getEdit');
+        // 保存分销商家
+        Route::post('distributor/store', 'Apps\Platform\Sale\DistributorController@postStore');
+        // 删除分销商家
+        Route::get('distributor/stop/{id}', 'Apps\Platform\Sale\DistributorController@getStop');
     });
 
     // 系统
     Route::prefix('system')->group(function () {
         Route::get('users', 'Apps\Platform\System\UserController@getIndex');
+        Route::get('users/edit/{id}', 'Apps\Platform\System\UserController@getEdit');
+        Route::post('users/store', 'Apps\Platform\System\UserController@postStore');
+        Route::get('users/stop/{id}', 'Apps\Platform\System\UserController@getStop');
+        Route::get('users/recovery/{id}', 'Apps\Platform\System\UserController@getRecovery');
+        Route::get('users/destroy/{id}', 'Apps\Platform\System\UserController@getDestroy');
     });
 });

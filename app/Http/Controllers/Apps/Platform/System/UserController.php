@@ -41,6 +41,7 @@ class UserController extends Controller
             ->with('deleted', $deleted)
             ->with('query', $query);
     }
+
     /**
      * 保存用户
      *
@@ -60,7 +61,7 @@ class UserController extends Controller
         }
         $validator = validator($request->input(), $rules);
         if ($validator->fails()) {
-            return self::retErr($validator->errors()->first());
+            return back()->withErrors($validator->errors()->first());
         }
 
         $pwd = $request->input('password');
@@ -79,29 +80,33 @@ class UserController extends Controller
             $user->password = bcrypt($pwd);
         }
         if ($user && $user->save()) {
-            return self::retSuc();
+            return back();
         }
 
-        return self::retErr($msg ?? '用户保存失败！');
+        return back()->withErrors($msg ?? '用户保存失败！');
     }
+
     /**
-     * 获得用户信息
+     * 编辑用户信息
      *
      * @param $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    public function getProfile($id)
+    public function getEdit($id)
     {
-        $user = User::withTrashed()->find($id);
-        return self::retDat($user);
+        $row = User::withTrashed()->find($id);
+
+        return view('apps.platform.system.users.edit')
+            ->with('row', $row);
     }
+
     /**
      * 禁用用户
      *
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postStop($id)
+    public function getStop($id)
     {
         $user = User::find($id);
         if ($user) {
@@ -117,13 +122,14 @@ class UserController extends Controller
         }
         return back()->withErrors($msg ?? '禁用用户失败！');
     }
+
     /**
      * 恢复用户
      *
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postRecovery($id)
+    public function getRecovery($id)
     {
         $user = User::withTrashed()->find($id);
         if ($user) {
@@ -134,13 +140,14 @@ class UserController extends Controller
         }
         return back()->withErrors($msg ?? '恢复用户失败！');
     }
+
     /**
      * 删除用户
      *
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function postDestroy($id)
+    public function getDestroy($id)
     {
         $user = User::withTrashed()->find($id);
         if ($user && $user->deleted_at) {

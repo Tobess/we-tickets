@@ -62,7 +62,7 @@ class StockSchemaV171214 extends Migration
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('category_id')->comment('类目');
-            $table->unsignedInteger('venue_id')->comment('场馆');
+            $table->unsignedInteger('venue_id')->default(0)->comment('场馆');
             $table->timestamps();
         });
         // 产品库存SKU
@@ -74,6 +74,7 @@ class StockSchemaV171214 extends Migration
             $table->unsignedInteger('sku_num')->default(0)->comment('库存');
             $table->decimal('sku_price', 18, 2)->default(0.00)->comment('价格');
             $table->decimal('sku_cost', 18, 2)->default(0.00)->comment('成本');
+            $table->text('sku_eles')->nullable()->comment('sku元素');
 
             $table->unique('sku_code');
         });

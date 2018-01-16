@@ -19,8 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // 数据源API
 Route::prefix('data')->group(function () {
+    // 获得地区列表
     Route::get('areas', function () {
         $parent = \request('parent', 0);
         return \App\Support\JsonResponse::retDat(areas($parent));
     });
+    // 获得分类列表
+    Route::get('categories', 'Apps\Platform\Product\CategoryController@getJson');
 });

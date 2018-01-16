@@ -18,7 +18,7 @@ class Supplier extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'mobile', 'password',
+        'name', 'mobile', 'password','venue_id'
     ];
 
     /**

@@ -52,6 +52,10 @@
                     initEditor($(this).attr('id'));
                 });
             });
+
+            $editors.on('editor', function () {
+                initEditor($(this).attr('id'));
+            })
         }
     });
 

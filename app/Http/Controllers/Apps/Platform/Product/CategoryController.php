@@ -110,4 +110,19 @@ class CategoryController extends Controller
         }
         return back()->withErrors($msg ?? '删除类目失败！');
     }
+
+    /**
+     * 获得分类数据源
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getJson()
+    {
+        $pid = \request('pid') ?: 0;
+        $cateArr = \DB::table('bas_category')
+            ->where('pid', $pid)
+            ->get(['id', 'name', 'pid']);
+
+        return self::retDat($cateArr);
+    }
 }

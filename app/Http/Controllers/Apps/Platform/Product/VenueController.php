@@ -84,8 +84,8 @@ class VenueController extends Controller
             };
             if ($id > 0) {
                 $state = \DB::table('bas_venue')
-                    ->where('id', $id)
-                    ->update($values) >= 0;
+                        ->where('id', $id)
+                        ->update($values) >= 0;
                 $refFn($id);
             } else {
                 $id = \DB::table('bas_venue')
@@ -150,5 +150,21 @@ class VenueController extends Controller
         }
 
         return back()->withErrors($msg ?? '删除场馆失败！');
+    }
+
+    /**
+     * 获得场馆数据源
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getJson()
+    {
+        $cid = \request('category_id') ?: 0;
+        $venues = \DB::table('bas_venue_category as vc')
+            ->leftJoin('bas_venue as v', 'v.id', '=', 'vc.venue_id')
+            ->where('vc.category_id', $cid)
+            ->get(['v.id', 'v.name']);
+
+        return self::retDat($venues);
     }
 }

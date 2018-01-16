@@ -38,5 +38,8 @@ var jp_config = {
     ],
     ckeditor:     [
         '/libs/ckeditor/ckeditor.js'
-    ]
+    ],
+    select2: ['/libs/select2/js/select2.min.js',
+        '/libs/select2/js/i18n/zh-CN.js',
+        '/libs/select2/css/select2.min.css'],
 };

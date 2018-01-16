@@ -3,7 +3,7 @@
         $("[ui-color]").each(function () {
             var self = $(this);
             var options = eval('[' + self.attr('ui-color') + ']');
-			var cls = 'primary lter'
+			var cls = 'warning lter'
 
 			self.addClass('text-' + cls.replace(' ', '-'));
         });
