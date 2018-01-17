@@ -92,7 +92,7 @@ class ItemsController extends Controller
             ->with('goods', $item ?? null)
             ->with('stocks', $stocks ?? [])
             ->with('skus', $skus ?? [])
-            ->with('categories', array_values($categories));
+            ->with('categories', isset($categories) ? array_values($categories) : []);
     }
 
     /**
