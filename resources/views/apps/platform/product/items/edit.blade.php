@@ -445,8 +445,7 @@
             z-index: 10;
             left: 210px;
             right: 210px!important;
-            width: auto;
-            min-width: 880px;
+            width: 880px;
             -webkit-transition: right .5s;
             -moz-transition: right .5s;
             transition: right .5s;
@@ -458,6 +457,7 @@
             background: #ffc;
             padding: 10px;
             border-top: none;
+            width: 880px;
         }
         .app-footer {
             display: none;
