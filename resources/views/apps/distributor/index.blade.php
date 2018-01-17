@@ -1,5 +1,5 @@
 @extends('layouts.content')
 
-@section('page')
+@section('content')
     <h1>This is Distributor</h1>
 @endsection

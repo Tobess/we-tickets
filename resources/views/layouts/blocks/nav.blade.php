@@ -3,15 +3,15 @@
     <ul class="nav" ui-nav>
         @foreach(app_menus() as $idx => $top)
             @if($top->parent_id > 0 || count(app_menus()) > 1)
-                @if(!isset($top->isFirst) || !$top->isFirst)
-                    <li class="line dk"></li>
-                @endif
-                @if($top->name)
-                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                        <span>{{ $top->name }}</span>
-                    </li>
-                @endif
                 @if(isset($top->children) && count($top->children) > 0)
+                    @if(!isset($top->isFirst) || !$top->isFirst)
+                        <li class="line dk"></li>
+                    @endif
+                    @if($top->name)
+                        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                            <span>{{ $top->name }}</span>
+                        </li>
+                    @endif
                     @foreach($top->children as $item)
                         <li>
                             <a href="{{ $item->url or '#' }}">
@@ -42,15 +42,26 @@
                             @endif
                         </li>
                     @endforeach
+                @else
+                    @if($top->name)
+                        <li>
+                            <a href="{{ $top->url }}">
+                                @if($top->icon)
+                                    <i class="{{ $top->icon }}" ui-color></i>
+                                @endif
+                                <span title="{{ $top->name }}">{{ $top->name }}</span>
+                            </a>
+                        </li>
+                    @endif
                 @endif
             @else
-                @if($item->name)
+                @if($top->name)
                     <li>
-                        <a href="{{ $item->url }}">
-                            @if($item->icon)
-                                <i class="{{ $item->icon }}" ui-color></i>
+                        <a href="{{ $top->url }}">
+                            @if($top->icon)
+                                <i class="{{ $top->icon }}" ui-color></i>
                             @endif
-                            <span title="{{ $item->name }}">{{ $item->name }}</span>
+                            <span title="{{ $top->name }}">{{ $top->name }}</span>
                         </a>
                     </li>
                 @endif

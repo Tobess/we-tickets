@@ -69,11 +69,15 @@
     @if (Route::has('login'))
         <div class="top-right links">
             @auth
-                <a href="{{ url('/home') }}">Home</a>
-                @else
-                    <a href="{{ route('login') }}">Platform</a>
-                    <a href="{{ route('dist-login') }}">Distributor</a>
-                    @endauth
+                @if(auth('platform')->check())
+                    <a href="{{ url('/platform') }}">控制台</a>
+                @elseif(auth('distributor')->check())
+                    <a href="{{ url('/distributor') }}">控制台</a>
+                @endif
+            @else
+                <a href="{{ route('login') }}">平台</a>
+                <a href="{{ route('dist-login') }}">分销</a>
+            @endauth
         </div>
     @endif
 

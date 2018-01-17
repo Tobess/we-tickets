@@ -19,4 +19,8 @@ Route::middleware('auth:distributor')->group(function () {
     Route::get('/', function () {
         return view('apps.distributor.index');
     });
+    // 分销商分销商品
+    Route::get('items', 'Apps\Dist\Sale\DistController@getIndex');
+    // 分销商销售订单
+    Route::get('orders', 'Apps\Dist\Sale\OrderController@getIndex');
 });
