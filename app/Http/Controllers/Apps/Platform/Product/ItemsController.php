@@ -89,7 +89,7 @@ class ItemsController extends Controller
         }
 
         return app_view('product.items.edit')
-            ->with('goods', $item)
+            ->with('goods', $item ?? null)
             ->with('stocks', $stocks ?? [])
             ->with('skus', $skus ?? [])
             ->with('categories', array_values($categories));
