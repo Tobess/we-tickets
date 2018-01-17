@@ -31,7 +31,6 @@
                     <tr>
                         <th class="text-center" style="width: 64px;">序号</th>
                         <th>产品</th>
-                        <td>SKU</td>
                         <td>分销数量</td>
                         <td>剩余库存</td>
                         <th>分销商</th>
@@ -42,27 +41,15 @@
                     @foreach ($rows as $idx => $row)
                         <tr>
                             <td class="text-center">{{ $idx + 1  }}</td>
-                            <td>{{ $row->product }}</td>
-                            <td>{{ $row->stock }}</td>
-                            <td>{{ $row->stock }}</td>
-                            <td>{{ $row->number }}</td>
-                            <td>{{ $row->dist }}</td>
+                            <td>{{ $row->p_name }} {{ $row->sku_note }}</td>
+                            <td>{{ $row->dist_total }}</td>
+                            <td>{{ $row->sku_num }}</td>
+                            <td>{{ $row->d_name }}</td>
                             <td>
                                 <button class="btn btn-xs btn-danger m-b-none" type="button" onClick="back('{{ $row->id }}')">退回</button>
                             </td>
                         </tr>
                     @endforeach
-                    <tr>
-                        <td class="text-center">1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>
-                            <button class="btn btn-xs btn-danger m-b-none" type="button" onClick="back('0')">退回</button>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>

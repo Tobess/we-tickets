@@ -151,8 +151,8 @@ class DistributorController extends Controller
         $distId = \request('dist_id');
         $productId = \request('product_id');
         $stockId = \request('stock_id');
-        $number = intval(\request('number'));
-        $price = floatval(\request('price'));
+        $number = intval(\request('sku_num'));
+        $price = floatval(\request('sku_price'));
 
         if ($distId > 0 && $productId > 0 && $number > 0 && $price >= 0) {
             $dist = Distributor::find($distId);
@@ -175,8 +175,8 @@ class DistributorController extends Controller
                                             'dist_id' => $distId,
                                             'product_id' => $productId,
                                             'stock_id' => $stockId,
-                                            'number' => $number,
-                                            'price' => $price,
+                                            'sku_num' => $number,
+                                            'sku_price' => $price,
                                         ];
                                         if (\DB::table('inv_stock_dist')
                                                 ->where('dist_id', $distId)
@@ -200,8 +200,7 @@ class DistributorController extends Controller
                                             $state = \DB::table('inv_stock')
                                                 ->where('id', $stockId)
                                                 ->update([
-                                                    'sku_num' => \DB::raw('sku_num-' . $number),
-                                                    'updated_at' => Carbon::now()
+                                                    'sku_num' => \DB::raw('sku_num-' . $number)
                                                 ]) > 0 &&
                                                 \DB::table('inv_product')
                                                     ->where('id', $productId)
@@ -223,8 +222,8 @@ class DistributorController extends Controller
                                     'dist_id' => $distId,
                                     'product_id' => $productId,
                                     'stock_id' => 0,
-                                    'number' => $number,
-                                    'price' => $price,
+                                    'sku_num' => $number,
+                                    'sku_price' => $price,
                                 ];
                                 if (\DB::table('inv_stock_dist')
                                     ->where('dist_id', $distId)
@@ -290,7 +289,6 @@ class DistributorController extends Controller
                         ->where('id', $sd->stock_id)
                         ->update([
                             'sku_num' => \DB::raw('sku_num+' . $sd->sku_num),
-                            'updated_at' => Carbon::now()
                         ]) > 0;
             }
             if ($state &&
