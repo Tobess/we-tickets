@@ -1334,6 +1334,9 @@
                                             <table class="table-sku-stock">
                                                 <thead>
                                                 <tr>
+                                                    @foreach(array_keys($skus) as $sType)
+                                                        <th>{{ $sType }}</th>
+                                                    @endforeach
                                                     <th class="th-price"><em class="zent-form__required">*</em>价格（元）</th>
                                                     <th class="th-stock"><em class="zent-form__required">*</em>库存</th>
                                                     <th class="th-code">规格编码<div class="zent-popover-wrapper zent-pop-wrapper" style="display: inline-block;"><span class="help-circle"><i class="zenticon zenticon-help-circle"></i></span></div></th>

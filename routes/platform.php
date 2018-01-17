@@ -87,6 +87,9 @@ Route::middleware('auth:platform')->group(function () {
         Route::post('dist-items/store', 'Apps\Platform\Sale\DistributorController@postDistProduct');
         // 删除分销商品
         Route::get('dist-items/destroy/{id}', 'Apps\Platform\Sale\DistributorController@deleteDistProduct');
+
+        // 销售订单
+        Route::get('orders', 'Apps\Platform\Sale\OrderController@getIndex');
     });
 
     // 系统
