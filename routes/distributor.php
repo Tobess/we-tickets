@@ -13,7 +13,7 @@
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('dist-login');
 Route::post('login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('dist-logout');
+Route::any('logout', 'Auth\LoginController@logout')->name('dist-logout');
 
 Route::middleware('auth:distributor')->group(function () {
     Route::get('/', function () {
