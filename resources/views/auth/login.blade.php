@@ -31,8 +31,8 @@
                     @endif
 
                     <button type="submit" class="btn btn-lg btn-primary btn-block">登录</button>
-                    <div class="text-center m-t m-b"><a href="{{ app_route('password/reset') }}">忘记密码?</a></div>
-                    <div class="text-center m-t m-b">没有账号? <a ui-sref="access.signup" href="{{ app_route('register') }}" class="text-primary _600">注册</a></div>
+                    {{--<div class="text-center m-t m-b"><a href="{{ app_route('password/reset') }}">忘记密码?</a></div>--}}
+                    {{--<div class="text-center m-t m-b">没有账号? <a ui-sref="access.signup" href="{{ app_route('register') }}" class="text-primary _600">注册</a></div>--}}
                 </form>
             </div>
             <div class="text-center m-t m-b">
