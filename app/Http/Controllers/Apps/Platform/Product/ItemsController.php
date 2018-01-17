@@ -47,25 +47,25 @@ class ItemsController extends Controller
             if (!$item && $id > 0) {
                 return redirect()->to(app_route('product/items'))->withErrors('商品不存在');
             }
-        }
 
-        if ($item && $item->id > 0) {
-            $stocksArr = \DB::table('inv_stock')
-                ->where('product_id', $item->id)
-                ->select('sku_note as title', 'sku_key as k', 'sku_code as code',
-                    'sku_num as stock_num', 'sku_price as price', 'sku_cost as cost_price', 'sku_eles as cols')
-                ->get();
-            $stocks = [];
-            $skus = [];
-            foreach ($stocksArr as $stock) {
-                $stock->cols = json_decode($stock->cols);
-                if (is_array($stock->cols)) {
-                    foreach ($stock->cols as $col) {
-                        if (!isset($skus[$col->t])) $skus[$col->t] = [];
-                        if (!in_array($col->v, $skus[$col->t])) $skus[$col->t][] = $col->v;
+            if ($item && $item->id > 0) {
+                $stocksArr = \DB::table('inv_stock')
+                    ->where('product_id', $item->id)
+                    ->select('sku_note as title', 'sku_key as k', 'sku_code as code',
+                        'sku_num as stock_num', 'sku_price as price', 'sku_cost as cost_price', 'sku_eles as cols')
+                    ->get();
+                $stocks = [];
+                $skus = [];
+                foreach ($stocksArr as $stock) {
+                    $stock->cols = json_decode($stock->cols);
+                    if (is_array($stock->cols)) {
+                        foreach ($stock->cols as $col) {
+                            if (!isset($skus[$col->t])) $skus[$col->t] = [];
+                            if (!in_array($col->v, $skus[$col->t])) $skus[$col->t][] = $col->v;
+                        }
                     }
+                    $stocks[] = $stock;
                 }
-                $stocks[] = $stock;
             }
         }
 
