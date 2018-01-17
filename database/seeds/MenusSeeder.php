@@ -39,8 +39,9 @@ class MenusSeeder extends Seeder
                 ['id' => 11, 'name' => '分销商品', 'url' => '/platform/sale/dist-items', 'icon' => 'fa fa-code-fork', 'index' => 3, 'parent_id' => 5],
             ],
             'pms_dist_menus' => [
-                ['id' => 1, 'name' => '分销管理', 'url' => '/distributor/sales', 'icon' => 'fa fa-sliders', 'index' => 1, 'parent_id' => 0],
-                ['id' => 2, 'name' => '销售订单', 'url' => '/distributor/orders', 'icon' => 'fa fa-bar-chart-o', 'index' => 2, 'parent_id' => 0],
+                ['id' => 1, 'name' => '分销', 'url' => '#', 'icon' => '', 'index' => 1, 'parent_id' => 0],
+                ['id' => 2, 'name' => '分销商品', 'url' => '/distributor/sales', 'icon' => 'fa fa-sliders', 'index' => 1, 'parent_id' => 1],
+                ['id' => 3, 'name' => '销售订单', 'url' => '/distributor/orders', 'icon' => 'fa fa-bar-chart-o', 'index' => 2, 'parent_id' => 1],
             ],
         ];
     }
