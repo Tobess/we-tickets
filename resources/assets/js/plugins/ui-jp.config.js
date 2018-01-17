@@ -33,13 +33,19 @@ var jp_config = {
         '/libs/footable/footable.core.css'],
     clockpicker: ['/libs/clockpicker/bootstrap-clockpicker.min.js',
         '/libs/clockpicker/bootstrap-clockpicker.min.css'],
-    screenfull:     [
+    screenfull: [
         '/libs/screenfull/dist/screenfull.min.js'
     ],
-    ckeditor:     [
+    ckeditor: [
         '/libs/ckeditor/ckeditor.js'
     ],
     select2: ['/libs/select2/js/select2.min.js',
         '/libs/select2/js/i18n/zh-CN.js',
-        '/libs/select2/css/select2.min.css'],
+        '/libs/select2/css/select2.min.css'
+    ],
+
+    datetimepicker: ['/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.js',
+        '/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js',
+        '/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.css'
+    ]
 };

@@ -23,4 +23,8 @@ Route::middleware('auth:distributor')->group(function () {
     Route::get('items', 'Apps\Dist\Sale\DistController@getIndex');
     // 分销商销售订单
     Route::get('orders', 'Apps\Dist\Sale\OrderController@getIndex');
+    // 创建分销商销售订单
+    Route::get('orders/create', 'Apps\Dist\Sale\OrderController@getCreate');
+    // 保存分销商销售订单
+    Route::post('orders/create', 'Apps\Dist\Sale\OrderController@postCreate');
 });

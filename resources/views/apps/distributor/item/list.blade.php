@@ -2,6 +2,7 @@
 
 @section('content')
     <ul class="breadcrumb m-b-none">
+        <li><span class="text-muted">分销</span></li>
         <li class="active"><span class="text-muted">分销商品</span></li>
     </ul>
     <div class="padder">

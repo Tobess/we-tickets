@@ -2,6 +2,7 @@
 
 @section('content')
     <ul class="breadcrumb m-b-none">
+        <li><span class="text-muted">分销</span></li>
         <li class="active"><span class="text-muted">销售订单</span></li>
     </ul>
     <div class="padder">
@@ -9,10 +10,10 @@
             <div class="box-header">
                 <div class="row wrapper">
                     <div class="col-sm-6" ui-area area-hint="Yes">
-                        <button class="btn btn-sm btn-primary" type="button">
+                        <a class="btn btn-sm btn-primary" type="button" href="{{ app_route('orders/create') }}">
                             <i class="fa fa-plus"></i>
                             新增
-                        </button>
+                        </a>
                     </div>
                     <div class="col-sm-6">
                         <div class="input-group input-group-sm">
