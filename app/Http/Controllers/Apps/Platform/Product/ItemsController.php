@@ -40,11 +40,13 @@ class ItemsController extends Controller
      * @param $id
      * @return \Illuminate\View\View
      */
-    public function getEdit($id)
+    public function getEdit($id = 0)
     {
-        $item = Product::find($id);
-        if (!$item && $id > 0) {
-            return redirect()->to(app_route('product/items'))->withErrors('商品不存在');
+        if ($id) {
+            $item = Product::find($id);
+            if (!$item && $id > 0) {
+                return redirect()->to(app_route('product/items'))->withErrors('商品不存在');
+            }
         }
 
         if ($item && $item->id > 0) {
