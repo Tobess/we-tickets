@@ -187,4 +187,25 @@ class ItemsController extends Controller
         }
         return back()->withErrors($msg ?? '删除产品失败！');
     }
+
+    /**
+     * 获得产品库存信息
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getProductStocks($id)
+    {
+        /**
+         * @var Product $item
+         */
+        $item = Product::find($id);
+        if ($item) {
+            $stocks = $item->stocks()
+                ->select('id', 'sku_note as title', 'sku_code as code', 'sku_num as num', 'sku_price as price')
+                ->get();
+
+        }
+
+        return self::retDat($stocks ?? []);
+    }
 }

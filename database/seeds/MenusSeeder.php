@@ -36,6 +36,7 @@ class MenusSeeder extends Seeder
                 ['id' => 8, 'name' => '系统', 'url' => '#', 'icon' => '', 'index' => 3, 'parent_id' => 0],
                 ['id' => 9, 'name' => '账户管理', 'url' => '/platform/system/users', 'icon' => 'fa fa-user', 'index' => 1, 'parent_id' => 8],
                 ['id' => 10, 'name' => '供应商家', 'url' => '/platform/product/supplier', 'icon' => 'fa fa-truck', 'index' => 3, 'parent_id' => 1],
+                ['id' => 11, 'name' => '分销商品', 'url' => '/platform/sale/dist-items', 'icon' => 'fa fa-code-fork', 'index' => 3, 'parent_id' => 5],
             ],
             'pms_dist_menus' => [
                 ['id' => 1, 'name' => '分销管理', 'url' => '/distributor/sales', 'icon' => 'fa fa-sliders', 'index' => 1, 'parent_id' => 0],

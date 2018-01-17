@@ -56,8 +56,10 @@ Route::middleware('auth:platform')->group(function () {
         Route::get('items/edit/{id}', 'Apps\Platform\Product\ItemsController@getEdit')->name('items-edit');
         // 保存商品
         Route::post('items/store', 'Apps\Platform\Product\ItemsController@postStore');
-        // 删除供应商家
+        // 删除商品
         Route::get('items/destroy/{id}', 'Apps\Platform\Product\ItemsController@getDelete');
+        // 获得库存
+        Route::get('items/stocks/{id}', 'Apps\Platform\Product\ItemsController@getProductStocks');
 
         // 供应商家
         Route::get('supplier', 'Apps\Platform\Product\SupplierController@getIndex');
@@ -79,6 +81,12 @@ Route::middleware('auth:platform')->group(function () {
         Route::post('distributor/store', 'Apps\Platform\Sale\DistributorController@postStore');
         // 删除分销商家
         Route::get('distributor/stop/{id}', 'Apps\Platform\Sale\DistributorController@getStop');
+        // 获得分销商品
+        Route::get('dist-items', 'Apps\Platform\Sale\DistributorController@getDistProducts');
+        // 添加分销商品
+        Route::post('dist-items/store', 'Apps\Platform\Sale\DistributorController@postDistProduct');
+        // 删除分销商品
+        Route::get('dist-items/destroy/{id}', 'Apps\Platform\Sale\DistributorController@deleteDistProduct');
     });
 
     // 系统
