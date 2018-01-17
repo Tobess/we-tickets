@@ -67,7 +67,7 @@ if (! function_exists('app_menus')) {
                             if (isset($mTmp[$item->id])) {
                                 $item->children = $fn($item->id);
                             }
-                            if ($parent == 0 && $_tmpLen > 1) {
+                            if ($parent == 0) {
                                 if ($idx == 0) {
                                     $item->isFirst = true;
                                 }

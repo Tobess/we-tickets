@@ -12,6 +12,8 @@ class Distributor extends Authenticatable
 
     protected $table = 'sc_distributor';
 
+    protected $rememberTokenName = null;
+
     /**
      * The attributes that are mass assignable.
      *
