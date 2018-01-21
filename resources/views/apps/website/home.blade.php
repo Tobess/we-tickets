@@ -66,20 +66,18 @@
 </head>
 <body>
 <div class="flex-center position-ref full-height">
-    @if (Route::has('login'))
-        <div class="top-right links">
-            @auth
-                @if(auth('platform')->check())
-                    <a href="{{ url('/platform') }}">控制台</a>
-                @elseif(auth('distributor')->check())
-                    <a href="{{ url('/distributor') }}">控制台</a>
-                @endif
-            @else
-                <a href="{{ route('login') }}">平台</a>
-                <a href="{{ route('dist-login') }}">分销</a>
-            @endauth
-        </div>
-    @endif
+    <div class="top-right links">
+        @auth
+            @if(auth('platform')->check())
+                <a href="{{ url('/platform') }}">控制台</a>
+            @elseif(auth('distributor')->check())
+                <a href="{{ url('/distributor') }}">控制台</a>
+            @endif
+        @else
+            <a href="{{ route('plat-login') }}">平台</a>
+            <a href="{{ route('dist-login') }}">分销</a>
+        @endauth
+    </div>
 
     <div class="content">
         <div class="title m-b-md">

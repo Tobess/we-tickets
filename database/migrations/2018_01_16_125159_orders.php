@@ -34,17 +34,20 @@ class Orders extends Migration
             $table->string('client_mobile')->comment('客户手机号');
             $table->string('client_name')->comment('客户姓名');
             $table->string('client_identify')->comment('客户证件号');
-            $table->dateTime('exchanged_at')->comment('交易时间');
-            $table->dateTime('charge_back_at')->comment('退单时间');
+            $table->dateTime('exchanged_at')->nullable()->comment('交易时间');
+            $table->dateTime('charge_back_at')->nullable()->comment('退单时间');
+            $table->boolean('checked')->default(false)->comment('是否核销');
+            $table->unsignedInteger('checked_supplier')->default(0)->comment('核销人员');
             $table->timestamps();
         });
         // 订单商品
-        Schema::create('orders_table', function (Blueprint $table) {
+        Schema::create('orders_items', function (Blueprint $table) {
             $table->unsignedInteger('order_id')->comment('订单ID');
             $table->unsignedInteger('product_id')->comment('产品ID');
             $table->unsignedInteger('stock_id')->comment('库存ID');
             $table->unsignedInteger('sd_id')->comment('分销库存ID');
             $table->unsignedInteger('number')->comment('销售数量');
+            $table->unsignedDecimal('price')->comment('销售单价');
         });
     }
 

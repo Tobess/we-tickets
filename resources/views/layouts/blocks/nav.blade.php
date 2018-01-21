@@ -12,7 +12,7 @@
                     </li>
                 @endif
                 @foreach($top->children as $item)
-                    <li>
+                    <li {{ starts_with(request()->getRequestUri(), $item->url) ? 'class=active' : '' }}>
                         <a href="{{ $item->url or '#' }}">
                             @if(isset($item->children) && count($item->children) > 0)
                                 <span class="pull-right text-muted">
@@ -31,7 +31,7 @@
                         @if(isset($item->children) && count($item->children) > 0)
                             <ul class="nav nav-sub dk">
                                 @foreach($item->children as $sub)
-                                    <li class="nav-sub-header">
+                                    <li class="nav-sub-header" {{ starts_with(request()->getRequestUri(), $sub->url) ? 'class=active' : '' }}>
                                         <a href="{{ $sub->url or '#' }}">
                                             <span>{{ $sub->name }}</span>
                                         </a>
@@ -43,12 +43,12 @@
                 @endforeach
             @else
                 @if($top->name)
-                    <li>
+                    <li {{ starts_with(request()->getRequestUri(), $top->url) ? 'class=active' : '' }}>
                         <a href="{{ $top->url }}">
                             @if($top->icon)
                                 <i class="{{ $top->icon }}" ui-color></i>
                             @endif
-                            <span title="{{ $top->name }}">{{ $top->name }}</span>
+                            <span title="{{ $top->name }}">{{ $top->name }}{{ request()->getRequestUri() }}</span>
                         </a>
                     </li>
                 @endif

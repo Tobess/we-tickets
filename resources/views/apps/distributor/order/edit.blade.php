@@ -17,35 +17,36 @@
             <div class="form-group pull-in clearfix">
                 <div class="col-sm-6">
                     <label>订单编号</label>
-                    <input type="text" class="form-control" placeholder="请输入订单编号" name="code" required>
+                    <input type="text" class="form-control" placeholder="请输入订单编号" name="code" required value="{{ old('code') }}">
                 </div>
                 <div class="col-sm-6">
                     <label>订单渠道</label>
-                    <select class="form-control" data-placeholder="请选择订单渠道" name="channel" ui-jq="chosen" required>
-                        <option value="youzan">有赞</option>
+                    <select class="form-control" data-placeholder="请选择订单渠道" name="channel" ui-jq="chosen" required value="{{ old('channel') }}">
+                        <option value="1">有赞</option>
+                        <option value="0">自有</option>
                     </select>
                 </div>
             </div>
             <div class="form-group pull-in clearfix">
                 <div class="col-sm-6">
                     <label>客户姓名</label>
-                    <input type="text" class="form-control" placeholder="请输入客户姓名" name="client_name" required>
+                    <input type="text" class="form-control" placeholder="请输入客户姓名" name="client_name" required value="{{ old('client_name') }}">
                 </div>
                 <div class="col-sm-6">
                     <label>客户电话</label>
-                    <input type="text" class="form-control" placeholder="请输入客户电话" name="client_mobile" required>
+                    <input type="text" class="form-control" placeholder="请输入客户电话" name="client_mobile" required value="{{ old('client_mobile') }}">
                 </div>
             </div>
             <div class="form-group pull-in clearfix">
                 <div class="col-sm-6">
                     <label>客户证件</label>
-                    <input type="text" class="form-control" placeholder="请输入客户证件" name="client_identify" required>
+                    <input type="text" class="form-control" placeholder="请输入客户证件" name="client_identify" value="{{ old('client_identify') }}">
                 </div>
                 <div class="col-sm-6">
                     <label>交易时间</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="请选择交易时间"
-                               name="exchanged_at" required ui-jq="datetimepicker" data-date-format="yyyy-mm-dd hh:ii:ss">
+                        <input type="text" class="form-control" placeholder="请选择交易时间" value="{{ old('exchanged_at') }}"
+                               name="exchanged_at" ui-jq="datetimepicker" data-date-format="yyyy-mm-dd hh:ii:ss">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" onclick="$(this).parent().prev().trigger('focus');">
                                 <i class="glyphicon glyphicon-calendar"></i>
@@ -61,7 +62,7 @@
                     商品
                 </div>
                 <div class="block" style="min-height: 300px;">
-                    <table class="table m-b-none b-b m-b-sm">
+                    <table id="gTable" class="table m-b-none b-b m-b-sm">
                         <thead>
                         <tr>
                             <th>名称</th>
@@ -71,20 +72,22 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                成都欢乐谷 成人票
-                            </td>
-                            <td>
-                                <input class="form-control input-sm" style="width: 100%;">
-                            </td>
-                            <td>
-                                <input class="form-control input-sm" style="width: 100%;">
-                            </td>
-                            <td class="actions">
-                                <button class="btn btn-danger btn-xs">删除</button>
-                            </td>
-                        </tr>
+                        @foreach($items ?? old('items', []) as $did => $item)
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="items[{{ $did }}][title]" value="{{ $item['title'] }}">{{ $item['title'] }}
+                                </td>
+                                <td>
+                                    <input name="items[{{ $did }}][num]" class="form-control input-sm" style="width: 100%;" value="{{ $item['num'] }}">
+                                </td>
+                                <td>
+                                    <input name="items[{{ $did }}][price]" class="form-control input-sm" style="width: 100%;" value="{{ $item['price'] }}">
+                                </td>
+                                <td class="actions">
+                                    <button class="btn btn-danger btn-xs">删除</button>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -110,8 +113,8 @@
                                 <div class="form-group">
                                     <label>销售商品：</label>
                                     <select class="form-control" id="item" data-placeholder="请选择分销商品">
-                                        @foreach($items as $item)
-                                            <option value="{{ $item->id }}">{{ $item->p_name }} {{ $item->sku_note }} {{ $item->sku_num }}件 {{ $item->sku_price }}元</option>
+                                        @foreach($dists as $dist)
+                                            <option value="{{ $dist->id }}">{{ $dist->p_name }} {{ $dist->sku_note }} {{ $dist->sku_num }}件 {{ $dist->sku_price }}元</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -128,7 +131,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="submitBtn" type="button"  class="btn btn-primary">确定</button>
+                    <button id="modalBtn" type="button" class="btn btn-primary">确定</button>
                 </div>
             </div>
         </div>
@@ -152,8 +155,37 @@
 
                     setTimeout(function () {
                         $modal.find('select').trigger('ui-jq', ['chosen']);
-                        $('#item').trigger('change');
                     }, 10);
+                }
+            });
+
+            $("#modalBtn").click(function () {
+                var did = $("#item").val();
+                var number = parseInt($("#number").val(), 10) || 0;
+                var price = parseFloat($("#price").val()) || 0;
+                if (did > 0 && number > 0 && price >= 0) {
+                    if ($('input[name="did[]"][value="' + did + '"]').size() > 0) {
+                        alert('该商品已经添加了！');
+                    } else {
+                        var gName = $("#item").find('option:selected').text();
+                        var $tr = '<tr>\n' +
+                            '          <td>\n' +
+                            '              <input type="hidden" name="items[' + did + '][title]" value="' + gName + '">' + gName + '\n' +
+                            '          </td>\n' +
+                            '          <td>\n' +
+                            '              <input name="items[' + did + '][num]" class="form-control input-sm" style="width: 100%;"  value="' + number + '">\n' +
+                            '          </td>\n' +
+                            '          <td>\n' +
+                            '              <input name="items[' + did + '][price]" class="form-control input-sm" style="width: 100%;" value="' + price + '">\n' +
+                            '          </td>\n' +
+                            '          <td class="actions">\n' +
+                            '              <button class="btn btn-danger btn-xs">删除</button>\n' +
+                            '          </td>\n' +
+                            '      </tr>';
+                        $("#gTable tbody").append($tr);
+                    }
+                } else {
+                    alert('商品及数量必填！');
                 }
             })
         })

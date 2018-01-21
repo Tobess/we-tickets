@@ -9,11 +9,15 @@
         <div class="panel panel-default">
             <div class="box-header">
                 <div class="row wrapper">
-                    <div class="col-sm-6" ui-area area-hint="Yes">
+                    <div class="col-sm-6">
                         <a class="btn btn-sm btn-primary" type="button" href="{{ app_route('orders/create') }}">
                             <i class="fa fa-plus"></i>
                             新增
                         </a>
+                        <div class="btn-group">
+                            <button type="button" id="goodsModal" class="btn btn-sm {{ !isset($model) || $model != 1 ? 'btn-success' : 'btn-default' }}">商品</button>
+                            <button type="button" id="billModal" class="btn btn-sm {{ isset($model) && $model == 1 ? 'btn-success' : 'btn-default' }}">订单</button>
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="input-group input-group-sm">
@@ -30,27 +34,36 @@
                     <thead>
                     <tr>
                         <th class="text-center" style="width: 64px;">序号</th>
-                        <th>分销商户</th>
-                        <th>编号</th>
+                        @if(1 != $model)
+                            <th>商品</th>
+                            <th>数量</th>
+                        @endif
+                        <th>单号</th>
                         <th>渠道</th>
                         <th>客户</th>
                         <th>交易时间</th>
-                        <th style="width:112px;"></th>
+                        @if(1 == $model)
+                            <th style="width:112px;"></th>
+                        @endif
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($rows as $idx => $row)
                         <tr>
                             <td class="text-center">{{ $idx + 1  }}</td>
-                            <td>{{ $row->d_name }}</td>
+                            @if(1 != $model)
+                                <td>{{ $row->p_name }} {{ $row->sku_note }} </td>
+                                <td>{{ $row->number }}</td>
+                            @endif
                             <td>{{ $row->code }}</td>
-                            <td>{{ $row->channel }}</td>
+                            <td>{{ 1 == $row->channel ? '有赞' : '自有' }}</td>
                             <td>{{ $row->client_name }}({{ $row->client_mobile }})</td>
                             <td>{{ $row->exchanged_at }}</td>
-                            <td>
-                                <button class="btn btn-xs btn-info m-b-none" type="button" >退货</button>
-                                <button class="btn btn-xs btn-danger m-b-none" type="button" onClick="destroy('{{ $row->id }}')">删除</button>
-                            </td>
+                            @if(1 == $model)
+                                <td>
+                                    <button class="btn btn-xs btn-danger m-b-none" type="button" onClick="destroy('{{ $row->id }}')">删除</button>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>
@@ -80,6 +93,14 @@
                     window.location.href='?query='+$('#searchQueryBox').val();
                 }
             });
+
+            $("#goodsModal").click(function () {
+                window.location.href='?query={{ $query or '' }}&model=0';
+            });
+
+            $("#billModal").click(function () {
+                window.location.href='?query={{ $query or '' }}&model=1';
+            });
         });
 
         /**
@@ -89,7 +110,7 @@
         function destroy(id)
         {
             if (confirm('您确定要删除此订单吗?')) {
-                //window.location.href='/platform/product/venue/destroy/'+id;
+                window.location.href='{{ app_route('orders/destroy/') }}' + id;
             }
         }
     </script>

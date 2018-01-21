@@ -27,4 +27,7 @@ Route::middleware('auth:distributor')->group(function () {
     Route::get('orders/create', 'Apps\Dist\Sale\OrderController@getCreate');
     // 保存分销商销售订单
     Route::post('orders/create', 'Apps\Dist\Sale\OrderController@postCreate');
+    // 删除分销商订单
+    Route::get('orders/destroy/{id}', 'Apps\Dist\Sale\OrderController@getDestroy');
+
 });
