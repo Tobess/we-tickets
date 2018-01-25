@@ -38,7 +38,7 @@ class AuthController extends Controller
         $appSecret = env('WX_MINI_APP_SECRET');
         $curl->get('https://api.weixin.qq.com/sns/jscode2session?appid=' . $appId . '&secret=' . $appSecret .
             '&js_code=' . $wxCode . '&grant_type=authorization_code');
-        $wxRet = $curl->response;
+        $wxRet = json_decode($curl->response);
         if (isset($wxRet->openid) && $wxRet->openid && isset($wxRet->session_key) && $wxRet->session_key &&
             ($token = Auth::guard('supplier')->attempt($params))) {
             \DB::table('sc_supplier')
