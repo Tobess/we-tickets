@@ -28,7 +28,7 @@ class Supplier extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'supplier_id',
+        'password', 'supplier_id', 'openid'
     ];
 
     /**
