@@ -44,7 +44,7 @@ return [
 
         // 供应商端
         'supplier' => [
-            'driver' => 'session',
+            'driver' => 'jwt',
             'provider' => 'supplier',
         ],
 

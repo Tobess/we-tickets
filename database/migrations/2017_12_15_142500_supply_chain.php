@@ -20,6 +20,7 @@ class SupplyChain extends Migration
             $table->string('name')->comment('姓名');
             $table->string('mobile', 20)->comment('手机');
             $table->string('password')->comment('密码');
+            $table->string('openid')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
