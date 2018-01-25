@@ -34,12 +34,14 @@ class SupplierController extends Controller
      */
     public function getEdit($id)
     {
-        $row = \DB::table('sc_supplier as s')
-            ->leftJoin('bas_venue as v', 's.venue_id', '=', 'v.id')
-            ->where('s.id', $id)
-            ->select('s.id', 's.name', 's.mobile', 's.updated_at', 's.created_at',
-                'venue_id', 'v.name as venue_name', 'deleted_at')
-            ->first();
+        if ($id > 0) {
+            $row = \DB::table('sc_supplier as s')
+                ->leftJoin('bas_venue as v', 's.venue_id', '=', 'v.id')
+                ->where('s.id', $id)
+                ->select('s.id', 's.name', 's.mobile', 's.updated_at', 's.created_at',
+                    'venue_id', 'v.name as venue_name', 'deleted_at')
+                ->first();
+        }
 
         $venues = \DB::table('bas_venue_category as vc')
             ->leftJoin('bas_venue as v', 'v.id', '=', 'vc.venue_id')
@@ -47,7 +49,7 @@ class SupplierController extends Controller
             ->get(['v.id', 'v.name']);
 
         return view('apps.platform.product.supplier.edit')
-            ->with('row', $row)
+            ->with('row', $row ?? null)
             ->with('venues', $venues);
     }
 

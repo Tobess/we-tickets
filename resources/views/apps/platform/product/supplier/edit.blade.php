@@ -26,7 +26,7 @@
                 <label>场馆</label>
                 <select class="form-control" placeholder="请选择归属场馆" ui-jq="chosen" name="venue_id">
                     @foreach($venues as $venue)
-                        <option value="{{ $venue->id }}" {{ $row->venue_id == $venue->id ? 'selected' : '' }}>{{ $venue->name }}</option>
+                        <option value="{{ $venue->id }}" {{ isset($row->venue_id) && $row->venue_id == $venue->id ? 'selected' : '' }}>{{ $venue->name }}</option>
                     @endforeach
                 </select>
             </div>
