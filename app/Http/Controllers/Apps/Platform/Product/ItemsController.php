@@ -42,7 +42,7 @@ class ItemsController extends Controller
      */
     public function getEdit($id = 0)
     {
-        if ($id) {
+        if ($id > 0) {
             $item = Product::find($id);
             if (!$item && $id > 0) {
                 return redirect()->to(app_route('product/items'))->withErrors('商品不存在');
