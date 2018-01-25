@@ -24,7 +24,7 @@
                         <div class="col-sm-6">
                             <label>经营类目</label>
                             <select ui-jq="chosen" multiple name="categories" type="text" class="form-control"
-                                    value="{{ $venue->categories->implode(',') }}" data-placeholder="请选择经营类目">
+                                    value="{{ isset($venue->categories) ? $venue->categories->implode(',') : '' }}" data-placeholder="请选择经营类目">
                                 @if(isset($categories[0]))
                                     @foreach($categories[0] as $lev1)
                                         @if(isset($categories[$lev1->id]))
@@ -43,12 +43,12 @@
                         <div class="col-sm-6">
                             <label>场馆电话</label>
                             <input name="phone" type="text" class="form-control" placeholder="请输入场馆电话" required
-                                   value="{{ $venue->phone }}">
+                                   value="{{ $venue->phone or '' }}">
                         </div>
                         <div class="col-sm-6">
                             <label>场馆手机</label>
                             <input name="mobile" type="text" class="form-control" placeholder="请输入场馆手机" required
-                                   value="{{ $venue->mobile }}">
+                                   value="{{ $venue->mobile or '' }}">
                         </div>
                     </div>
                     <div class="form-group pull-in clearfix">
@@ -75,19 +75,19 @@
                         <div class="col-sm-6">
                             <label>详细地址</label>
                             <input name="street" type="text" class="form-control" placeholder="请输入详细地址" required
-                                   value="{{ $venue->street }}">
+                                   value="{{ $venue->street or '' }}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>交通信息</label>
                         <textarea id="trafficBox" name="traffic" ui-editor class="form-control" rows="6">
-                            {{ $venue->traffic }}
+                            {{ $venue->traffic or '' }}
                         </textarea>
                     </div>
                     <div class="form-group">
                         <label>场馆详情</label>
                         <textarea id="descBox" name="description" ui-editor class="form-control" rows="6">
-                            {{ $venue->description }}
+                            {{ $venue->description or '' }}
                         </textarea>
                     </div>
                 </div>
