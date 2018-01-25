@@ -14,5 +14,5 @@ Route::post('login', 'Apps\Supplier\AuthController@login');
 
 Route::middleware('auth:supplier')->group(function () {
     Route::post('logout', 'Apps\Supplier\AuthController@logout');
-    Route::post('profile', 'Apps\Supplier\AuthController@getSupplier');
+    Route::get('profile', 'Apps\Supplier\AuthController@getSupplier');
 });
