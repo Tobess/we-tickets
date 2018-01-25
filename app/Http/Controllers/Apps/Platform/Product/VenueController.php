@@ -111,11 +111,13 @@ class VenueController extends Controller
      */
     public function getEdit($id)
     {
-        $venue = \DB::table('bas_venue')->where('id', $id)->first();
+        if ($id > 0) {
+            $venue = \DB::table('bas_venue')->where('id', $id)->first();
 
-        $venue->categories = \DB::table('bas_venue_category')
-            ->where('venue_id', $id)
-            ->pluck('category_id');
+            $venue->categories = \DB::table('bas_venue_category')
+                ->where('venue_id', $id)
+                ->pluck('category_id');
+        }
 
         $cateList = \DB::table('bas_category')->get();
         $categories = [];
@@ -123,8 +125,9 @@ class VenueController extends Controller
             $categories[$item->pid][] = $item;
         }
 
+
         return app_view('product.venue.edit')
-            ->with('venue', $venue)
+            ->with('venue', $venue ?? null)
             ->with('categories', $categories);
     }
 
