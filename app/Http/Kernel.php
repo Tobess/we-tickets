@@ -48,7 +48,6 @@ class Kernel extends HttpKernel
 
         'supplier' => [
             'throttle:60,1',
-            'jwt.auth'
         ],
 
         'distributor' => [
