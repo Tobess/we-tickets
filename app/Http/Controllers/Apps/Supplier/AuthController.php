@@ -51,7 +51,7 @@ class AuthController extends Controller
         }
 
         // 如果登录失败则返回
-        return response(['error' => '账号或密码错误'], 400);
+        return response(['error' => '账号或密码错误', '$wxCode' => $wxCode, 'ret' => $wxRet], 400);
     }
 
     /**
