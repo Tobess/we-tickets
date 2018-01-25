@@ -30,7 +30,7 @@
                                         @if(isset($categories[$lev1->id]))
                                         <optgroup label="{{ $lev1->name }}">
                                             @foreach($categories[$lev1->id] as $lev2)
-                                                <option value="{{ $lev2->id }}" {{ in_array($lev2->id, $venue->categories->toArray()) ? 'selected' : '' }}>{{ $lev2->name }}</option>
+                                                <option value="{{ $lev2->id }}" {{ in_array($lev2->id, isset($venue->categories) ? $venue->categories->toArray() : []) ? 'selected' : '' }}>{{ $lev2->name }}</option>
                                             @endforeach
                                         </optgroup>
                                         @endif
