@@ -125,6 +125,7 @@ class OrderController extends Controller
                                 $msg = '商品[' . $item['title'] . ']添加到订单失败！';
                                 break;
                             }
+                            $total += $item['num'];
                         } else {
                             $msg = '商品[' . $item['title'] . ']不存在或库存不足！';
                         }
@@ -133,11 +134,11 @@ class OrderController extends Controller
                     }
                 }
                 if (isset($state) && $state) {
-                    $state = \DB::table('orders')->where('id', $oid)->update(['number' => $total]);
+                    $state = \DB::table('orders')->where('id', $oid)->update(['number' => $total]) > 0;
                 }
             }
 
-            if (!isset($state)) {
+            if (!isset($state) || !$state) {
                 $msg = $msg ?? '订单销售商品不能空！'.print_r($items, true);
             } else {
                 if ($state) {
