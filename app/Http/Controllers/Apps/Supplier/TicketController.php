@@ -28,6 +28,16 @@ class TicketController extends Controller
                     'o.client_name', 'o.client_identify', 'oi.product_id', 'oi.number',
                     'ip.name as product_name', 'is.sku_note')
                 ->get();
+            \Log::info(\DB::table('orders_items as oi')
+                ->leftJoin('inv_product as ip', 'oi.product_id', '=', 'ip.id')
+                ->leftJoin('inv_stock as is', 'oi.stock_id', '=', 'is.id')
+                ->leftJoin('orders as o', 'o.id', '=', 'oi.order_id')
+                ->where('o.checked', false)
+                ->where('ip.venue_id', $user->venue_id)
+                ->where('o.client_mobile', $query)
+                ->select('o.id as order_id', 'o.code as order_code', 'o.client_mobile',
+                    'o.client_name', 'o.client_identify', 'oi.product_id', 'oi.number',
+                    'ip.name as product_name', 'is.sku_note')->toSql());
             $ret = [];
             foreach ($tickets as $ticket) {
                 if (!isset($ret[$ticket->order_id])) {
