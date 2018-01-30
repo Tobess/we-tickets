@@ -37,7 +37,9 @@ class TicketController extends Controller
                         'order_code' => $ticket->order_code,
                         'client_mobile' => $ticket->client_mobile,
                         'client_name' => $ticket->client_name,
-                        'client_identify' => $ticket->client_identify
+                        'client_identify' => $ticket->client_identify,
+                        'total' => 0,
+                        'items' => []
                     ];
                 }
                 $ret[$ticket->order_id]['total'] += $ticket->number;
@@ -121,7 +123,9 @@ class TicketController extends Controller
                     'order_code' => $ticket->order_code,
                     'client_mobile' => $ticket->client_mobile,
                     'client_name' => $ticket->client_name,
-                    'client_identify' => $ticket->client_identify
+                    'client_identify' => $ticket->client_identify,
+                    'total' => 0,
+                    'items' => []
                 ];
             }
             $ret[$ticket->order_id]['total'] += $ticket->number;
