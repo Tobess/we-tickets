@@ -31,6 +31,16 @@ class AuthController extends Controller
         // 验证参数，如果验证失败，则会抛出 ValidationException 的异常
         $params = $this->validate($request, $rules);
 
+        if (app()->isLocal()) {
+            if ($token = Auth::guard('supplier')->attempt($params)) {
+                // 使用 Auth 登录用户，如果登录成功，则返回 201 的 code 和 token
+                return response(['token' => 'bearer ' . $token, 'ttl' => env('JWT_TTL', 60)], 201);
+            }
+
+            // 如果登录失败则返回
+            return response(['error' => '账号或密码错误'], 400);
+        }
+
         // 用微信AuthCode换取open_id、session_key
         $wxCode = $request->get('wx_code');
         $curl = new Curl();
@@ -47,11 +57,11 @@ class AuthController extends Controller
                     'openid' => $wxRet->openid
                 ]);
             // 使用 Auth 登录用户，如果登录成功，则返回 201 的 code 和 token
-            return response(['token' => 'bearer ' . $token], 201);
+            return response(['token' => 'bearer ' . $token, 'ttl' => env('JWT_TTL', 60)], 201);
         }
 
         // 如果登录失败则返回
-        return response(['error' => '账号或密码错误', '$wxCode' => $wxCode, 'ret' => $wxRet], 400);
+        return response(['error' => '账号或密码错误'], 400);
     }
 
     /**

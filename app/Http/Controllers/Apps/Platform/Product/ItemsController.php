@@ -115,12 +115,12 @@ class ItemsController extends Controller
             return self::retErr($validator->errors()->first());
         }
 
-//        if (!\DB::table('bas_venue_category')
-//            ->where('venue_id', $request->input('venue_id'))
-//            ->where('category_id', $request->input('category_id'))
-//            ->exists()) {
-//            return self::retErr('您选择的场馆的经营类目不包含您选择的类目！');
-//        }
+        if (!\DB::table('bas_venue_category')
+            ->where('venue_id', $request->input('venue_id'))
+            ->where('category_id', $request->input('category_id'))
+            ->exists()) {
+            return self::retErr('您选择的场馆的经营类目不包含您选择的类目！');
+        }
 
         if ($id > 0 && !Product::where('id', $id)->exists()) {
             return self::retErr('您要保存的商品不存在！');
@@ -128,7 +128,7 @@ class ItemsController extends Controller
 
         $state = false;
         \DB::beginTransaction();
-        $product = $id > 0 ? Product::firstOrNew(['id' => $id], $request->input()) : new Product($request->input());
+        $product = $id > 0 ? Product::firstOrNew(['id' => $id])->fill($request->input()) : new Product($request->input());
         $richText = $request->get('richtext');
         if ($richText) {
             $product->richtext = $richText;

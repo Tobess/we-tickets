@@ -26,4 +26,6 @@ Route::prefix('data')->group(function () {
     });
     // 获得分类列表
     Route::get('categories', 'Apps\Platform\Product\CategoryController@getJson');
+    // 获得场馆列表
+    Route::get('venues', 'Apps\Platform\Product\VenueController@getJson');
 });

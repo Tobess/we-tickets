@@ -12,7 +12,10 @@
 
 Route::post('login', 'Apps\Supplier\AuthController@login');
 
-Route::middleware('auth:supplier')->group(function () {
+Route::middleware(['jwt.token.refresh'])->group(function () {
     Route::post('logout', 'Apps\Supplier\AuthController@logout');
     Route::get('profile', 'Apps\Supplier\AuthController@getSupplier');
+    route::get('search', 'Apps\Supplier\TicketController@getCheck');
+    route::post('pick', 'Apps\Supplier\TicketController@postPick');
+    route::get('history', 'Apps\Supplier\TicketController@getPickedTickets');
 });

@@ -1236,26 +1236,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{--<div class="form-control-group">--}}
-                                    {{--<label class="form-control-label">商品分组：</label>--}}
-                                    {{--<div class="form-control-controls">--}}
-                                        {{--<div>--}}
-                                            {{--<div class="zent-popover-wrapper zent-select select-large" style="display: inline-block;">--}}
-                                                {{--<select id="gVenue" id="venue_id" class="zent-select-tags" ui-jq="chosen" data-placeholder="选择商品分组">--}}
+                                <div class="form-control-group">
+                                    <label class="form-control-label">归属场馆：</label>
+                                    <div class="form-control-controls">
+                                        <div>
+                                            <div class="zent-popover-wrapper zent-select select-large" style="display: inline-block;">
+                                                <select id="gVenue" name="venue_id" class="zent-select-tags" ui-jq="chosen" data-placeholder="选择商品归属场馆" data-id="{{ $goods->venue_id or 0 }}">
 
-                                                {{--</select>--}}
-                                            {{--</div>--}}
-                                            {{--<p class="help-inline">--}}
-                                                {{--<a href="javascript:;">刷新</a>--}}
-                                                {{--<span> | </span>--}}
-                                                {{--<a class="new-window" target="_blank" rel="noopener noreferrer" href="//www.youzan.com/v2/showcase/tag#create">新建分组</a>--}}
-                                                {{--<span> | </span>--}}
-                                                {{--<a class="new-window" target="_blank" rel="noopener noreferrer" href="https://bbs.youzan.com/forum.php?mod=viewthread&amp;tid=15">如何创建商品分组？</a>--}}
-                                            {{--</p>--}}
-                                            {{--<p class="help-block hide">使用“列表中隐藏”分组，商品将不出现在商品列表中</p>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-control-group upload-field">
                                     <label class="form-control-label">主图视频：</label>
                                     <div class="form-control-controls">
@@ -1566,6 +1558,22 @@
 @section('scripts')
     <script>
         $(function() {
+            $(window).load(function () {
+                $("#gCategory").trigger('change');
+            });
+            $("#gCategory").change(function () {
+                var cid = $(this).val();
+                $.APIAjaxByGet('/api/data/venues', {'category_id':cid}, function (result) {
+                    var $html = [];
+                    if (result && result.data) {
+                        var selected = $("#gVenue").attr('data-id');
+                        $(result.data).each(function (k, v) {
+                            $html.push('<option value="' + v.id + '"' + (selected && selected == v.id ? ' selected' : '') + '>' + v.name + '</option>')
+                        });
+                    }
+                    $("#gVenue").html($html.join('')).chosen().trigger("chosen:updated");
+                });
+            });
             $("#skuAddBtn").click(function () {
                 var gCount = $(this).closest('div.rc-sku-group').prevAll('.rc-sku-group').length;
                 if (gCount < 3) {
