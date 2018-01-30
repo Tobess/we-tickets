@@ -15,7 +15,7 @@ class TicketController extends Controller
     public function getCheck()
     {
         $query = \request('query');
-        $user = auth()->user();
+        $user = auth('supplier')->user();
         \Log::info(print_r($user, true));
         if ($user && $query) {
             $tickets = \DB::table('orders_items as oi')
@@ -60,7 +60,7 @@ class TicketController extends Controller
     public function postPick()
     {
         $orders = \request('orders');
-        $user = auth()->user();
+        $user = auth('supplier')->user();
         if ($user && $orders) {
             $orders = explode(',', $orders);
             \DB::beginTransaction();
@@ -95,7 +95,7 @@ class TicketController extends Controller
         $start = \request('d_start');
         $end = \request('d_end');
 
-        $user = auth()->user();
+        $user = auth('supplier')->user();
         $que = \DB::table('orders_items as oi')
             ->leftJoin('inv_product as ip', 'oi.product_id', '=', 'ip.id')
             ->leftJoin('inv_stock as is', 'oi.stock_id', '=', 'is.id')

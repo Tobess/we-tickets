@@ -12,7 +12,7 @@
 
 Route::post('login', 'Apps\Supplier\AuthController@login');
 
-Route::middleware(['jwt.token.refresh'])->group(function () {
+Route::middleware(['jwt.token.refresh:supplier'])->group(function () {
     Route::post('logout', 'Apps\Supplier\AuthController@logout');
     Route::get('profile', 'Apps\Supplier\AuthController@getSupplier');
     route::get('search', 'Apps\Supplier\TicketController@getCheck');

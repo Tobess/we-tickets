@@ -71,7 +71,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        \auth()->logout();
+        \auth('supplier')->logout();
 
         return response(['message' => '退出成功']);
     }
@@ -84,7 +84,7 @@ class AuthController extends Controller
      */
     public function getSupplier(Request $request)
     {
-        $supplier = \auth()->user();
+        $supplier = $request->user('supplier');
 
         return response($supplier, 200);
     }
