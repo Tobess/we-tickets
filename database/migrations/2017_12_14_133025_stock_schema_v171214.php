@@ -70,6 +70,7 @@ class StockSchemaV171214 extends Migration
             $table->increments('id');
             $table->unsignedInteger('product_id')->comment('产品');
             $table->string('sku_note')->nullable()->comment('sku名称');
+            $table->string('sku_key')->nullable()->comment('sku界面标示');
             $table->string('sku_code')->nullable()->comment('sku编码');
             $table->unsignedInteger('sku_num')->default(0)->comment('库存');
             $table->decimal('sku_price', 18, 2)->default(0.00)->comment('价格');

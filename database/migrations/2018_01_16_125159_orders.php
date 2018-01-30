@@ -34,7 +34,7 @@ class Orders extends Migration
             $table->string('client_mobile')->comment('客户手机号');
             $table->string('client_name')->comment('客户姓名');
             $table->string('client_identify')->comment('客户证件号');
-            $table->unsignedInteger('number')->comment('购买数量');
+            $table->unsignedInteger('number')->default(0)->comment('购买数量');
             $table->dateTime('exchanged_at')->nullable()->comment('交易时间');
             $table->dateTime('charge_back_at')->nullable()->comment('退单时间');
             $table->boolean('checked')->default(false)->comment('是否核销');

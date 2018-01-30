@@ -95,6 +95,7 @@ class OrderController extends Controller
         if ($oid > 0) {
             $items = \request('items');
             if (is_array($items) && count($items)) {
+                $total = 0;
                 foreach ($items as $did => $item) {
                     if ($did > 0 &&
                         isset($item['num']) && $item['num'] > 0) {
@@ -130,6 +131,9 @@ class OrderController extends Controller
                     } else {
                         $msg = '订单商品中存在无效的记录！';
                     }
+                }
+                if (isset($state) && $state) {
+                    $state = \DB::table('orders')->where('id', $oid)->update(['number' => $total]);
                 }
             }
 
