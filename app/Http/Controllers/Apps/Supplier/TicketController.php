@@ -86,7 +86,7 @@ class TicketController extends Controller
                             'updated_at' => now()
                         ]) == count($orders)) {
                     \DB::commit();
-                    return response(['state' => true]);
+                    return response(['state' => true, 'data' => $orders]);
                 } else {
                     \DB::rollBack();
                 }
