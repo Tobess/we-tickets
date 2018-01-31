@@ -90,9 +90,11 @@ class TicketController extends Controller
                 } else {
                     \DB::rollBack();
                 }
+            } else {
+                $msg = '取票订单不能为空！';
             }
         }
-        return response(['state' => false]);
+        return response(['state' => false, 'msg' => $msg ?? '取票数据有误']);
     }
 
     /**
