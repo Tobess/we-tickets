@@ -62,26 +62,35 @@ class TicketController extends Controller
     public function postPick()
     {
         $orders = \request('orders');
+        $mobile = \request('mobile');
         $user = auth('supplier')->user();
         if ($user && $orders) {
             $orders = explode(',', $orders);
-            \DB::beginTransaction();
-            if (\DB::table('orders_items as oi')
-                    ->leftJoin('inv_product as ip', 'oi.product_id', '=', 'ip.id')
-                    ->leftJoin('inv_stock as is', 'oi.stock_id', '=', 'is.id')
-                    ->leftJoin('orders as o', 'o.id', '=', 'oi.order_id')
-                    ->where('o.checked', false)
-                    ->where('ip.venue_id', $user->venue_id)
-                    ->whereIn('o.id', $orders)
-                    ->update([
-                        'checked' => true,
-                        'checked_supplier' => $user->id,
-                        'updated_at' => now()
-                    ]) == count($orders)) {
-                \DB::commit();
-                return response(['state' => true]);
-            } else {
-                \DB::rollBack();
+            $orders = \DB::table('orders_items as oi')
+                ->leftJoin('inv_product as ip', 'oi.product_id', '=', 'ip.id')
+                ->leftJoin('inv_stock as is', 'oi.stock_id', '=', 'is.id')
+                ->leftJoin('orders as o', 'o.id', '=', 'oi.order_id')
+                ->where('o.checked', false)
+                ->where('ip.venue_id', $user->venue_id)
+                ->where('o.client_mobile', $mobile)
+                ->whereIn('o.id', $orders)
+                ->pluck('o.id');
+            if (!empty($orders)) {
+                \DB::beginTransaction();
+                if (\DB::table('orders')
+                        ->where('checked', false)
+                        ->where('venue_id', $user->venue_id)
+                        ->whereIn('id', $orders)
+                        ->update([
+                            'checked' => true,
+                            'checked_supplier' => $user->id,
+                            'updated_at' => now()
+                        ]) == count($orders)) {
+                    \DB::commit();
+                    return response(['state' => true]);
+                } else {
+                    \DB::rollBack();
+                }
             }
         }
         return response(['state' => false]);
