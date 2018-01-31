@@ -79,7 +79,6 @@ class TicketController extends Controller
                 \DB::beginTransaction();
                 if (\DB::table('orders')
                         ->where('checked', false)
-                        ->where('venue_id', $user->venue_id)
                         ->whereIn('id', $orders)
                         ->update([
                             'checked' => true,
