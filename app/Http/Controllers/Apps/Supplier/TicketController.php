@@ -75,7 +75,7 @@ class TicketController extends Controller
                 ->where('o.client_mobile', $mobile)
                 ->whereIn('o.id', $orders)
                 ->pluck('o.id');
-            if (!empty($orders)) {
+            if (count($orders) > 0) {
                 \DB::beginTransaction();
                 if (\DB::table('orders')
                         ->where('checked', false)
